@@ -1,0 +1,18 @@
+This is Capistrano recipi for lazy precompailng of Rails assets (assets are precompiled only if they were changed)
+
+Usage
+
+Add to your Gemfile
+
+gem 'capistrano-cook', :git => 'git@github.com:Subsis/capistrano-cook.git'
+
+run
+
+bundle install
+
+then add to the end of your deploy.rb file
+
+require "capistrano_cook"
+
+you can run task by
+cap deploy:assets:precompile
