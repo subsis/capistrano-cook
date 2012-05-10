@@ -2,7 +2,7 @@ Capistrano::Configuration.instance.load do
   set_default(:db_host,     "localhost")
   set_default(:db_user)     { application }
   set_default(:db_password) { Capistrano::CLI.password_promp "MySQL Password"}
-  set_default(:db_name)     { "#{application}_production" }
+  set_default(:db_name)     { "#{application}_#{rails_env}" }
 
   namespace :mysql do
     desc "Install the MySQL server"
@@ -26,6 +26,12 @@ Capistrano::Configuration.instance.load do
       template "mysql.yml.erb", "#{shared_path}/config/database.yml"
     end
     after "deploy:setup", "mysql:setup"
+
+    desc "Symlink the database.yml file into latest release"
+    task :symlink, roles: :app do
+        run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    end
+    after "deploy:finalize_update", "mysql:symlink"
 
     %w[start stop restart].each do |command|
       task command, roles: :db do
