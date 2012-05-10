@@ -2,7 +2,7 @@ Capistrano::Configuration.instance.load do
   set_default(:db_host,     "localhost")
   set_default(:db_user)     { application }
   set_default(:db_password) { Capistrano::CLI.password_promp "PostgreSQL Password"}
-  set_default(:db_name)     { "#{application}_production" }
+  set_default(:db_name)     { "#{application}_#{rails_env}" }
 
   namespace :postgresql do
     desc "Install the latest reales of PostgreSQL"
@@ -25,6 +25,12 @@ Capistrano::Configuration.instance.load do
       template "postgresql.yml.erb", "#{shared_path}/config/database.yml"
     end
     after "deploy:setup", "postgresql:setup"
+
+    desc "Symlink the database.yml file into latest release"
+    task :symlink, roles: :app do
+      run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    end
+    after "deploy:finalize_update", "postgresql:symlink"
 
     %w[start stop restart].each do |command|
       task command, roles: :db do
