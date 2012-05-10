@@ -12,7 +12,7 @@ Capistrano::Configuration.instance.load do
     desc "Install everything on server"
     task :install do
       run "#{sudo} apt-get -y update"
-      run "#{sudo} apt-get -y install python-software-properties"
+      run "#{sudo} apt-get -y install python-software-properties curl build-essential git-core"
     end
   end
 end
