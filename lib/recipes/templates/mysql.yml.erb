@@ -1,8 +1,8 @@
 <%= rails_env %>:
-  adapter: postgresql
-  encoding: unicode
+  adapter: mysql2
   database: <%= db_name %>
   username: <%= db_user %>
   password: <%= db_password %>
   host:     <%= db_host %>
-  pool: 5
+  pool:     5
+  timeout:  5000
