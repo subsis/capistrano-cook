@@ -3,7 +3,7 @@ Capistrano::Configuration.instance.load do
 
   namespace :nginx do
     task :install, roles: :web do
-      run "#{sudo} add-apt-repository ppa:nginx/stable"
+      run "#{sudo} add-apt-repository -y ppa:nginx/stable"
       run "#{sudo} apt-get -y update "
       run "#{sudo} apt-get -y install nginx"
       start
