@@ -18,7 +18,7 @@ Capistrano::Configuration.instance.load do
 
     desc "Create user and database for the application"
     task :create_database, roles: :db do
-      run %Q{mysql -u root -p=#{db_root_password} -e "create user '#{db_user}'@'#{db_host}' identyfied by '#{db_password}';"}
+      run %Q{mysql -u root -p=#{db_root_password} -e "create user '#{db_user}'@'#{db_host}' identified by '#{db_password}';"}
       run %Q{mysql -u root -p=#{db_root_password} -e "create databse #{db_name};"}
       run %Q{mysql -u root -p=#{db_root_password} -e "GRANT ALL PRIVILEGES ON *.* TO '#{db_user}'@'#{db_host}'"}
     end
