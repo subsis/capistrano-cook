@@ -15,5 +15,12 @@ Capistrano::Configuration.instance.load do
       run "#{sudo} apt-get -y install libxml2 libxml2-dev libxslt1-dev"
     end
     after "deploy:setup", "gem_dependences:nokogiri"
+
+    desc "patron dependendce library"
+    task :patron, role: :app do
+      run "#{sudo} apt-get -y update"
+      run "#{sudo} apt-get -y install libcurl4-openssl-dev"
+    end
+    after "deploy:setup", "gem_dependences:patron"
   end
 end
