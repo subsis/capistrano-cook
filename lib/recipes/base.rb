@@ -18,6 +18,7 @@ Capistrano::Configuration.instance.load do
     desc "setup privilages for shared folders"
     task :setup_privilages do
       run "#{sudo} chown -R #{user} #{shared_path}"
+      run "#{sudo} chown -R #{user} #{deploy_to}"
     end
     after "deploy:setup", "deploy:setup_privilages"
   end
