@@ -4,6 +4,7 @@ Capistrano::Configuration.instance.load do
   set_default(:db_password) { Capistrano::CLI.password_prompt "MySQL Password: "}
   set_default(:db_root_password) { Capistrano::CLI.password_prompt "MySQL root password: "}
   set_default(:db_name)     { "#{application}_#{rails_env}" }
+  set_deafult(:mysql_template, "mysql.yml.erb")
 
   namespace :mysql do
     desc "Install the MySQL server"
@@ -25,8 +26,9 @@ Capistrano::Configuration.instance.load do
     after "deploy:setup", "mysql:create_database"
 
     task :setup, roles: :app do
-      run "mkdir -p #{shared_path}/config"
-      template "mysql.yml.erb", "#{shared_path}/config/database.yml"
+      run "#{sudo} mkdir -p #{shared_path}/config"
+      template mysql_template, "/tmp/mysql.yml"
+      run "#{sudo} mv -f /tmp/mysql.yml #{shared_path}/config/database.yml"
     end
     after "deploy:setup", "mysql:setup"
 
