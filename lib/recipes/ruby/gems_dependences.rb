@@ -12,7 +12,7 @@ Capistrano::Configuration.instance.load do
     desc "nokogiri dependendce library"
     task :nokogiri, role: :app do
       run "#{sudo} apt-get -y update"
-      run "#{sudo} apt-get -y install libxml2 libxml2-dev"
+      run "#{sudo} apt-get -y install libxml2 libxml2-dev libxslt1-dev"
     end
     after "deploy:setup", "gem_dependences:nokogiri"
   end
