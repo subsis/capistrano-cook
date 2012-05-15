@@ -1,13 +1,15 @@
 Capistrano::Configuration.instance.load do
   set_default(:db_host,     "localhost")
   set_default(:db_user)     { application }
-  set_default(:db_password) { Capistrano::CLI.password_promp "MySQL Password"}
+  set_default(:db_password) { Capistrano::CLI.password_promp "MySQL Password: "}
+  set_default(:db_root_password) { Capistrano::CLI.password_promp "MySQL root password: "}
   set_default(:db_name)     { "#{application}_#{rails_env}" }
 
   namespace :mysql do
     desc "Install the MySQL server"
     task :install, roles: :db do
-      run "export DEBIAN_FRONTEND=noninteractive"
+      run "echo \"mysql-server mysql-server/root_password select #{db_root_password}\" | debconf-set-selections"
+      run "echo \"mysql-server mysql-server/root_password_again select #{db_root_password}\" | debconf-set-selections"
       run "#{sudo} apt-get -y update "
       run "#{sudo} apt-get -y install mysql-server libmysqlclient-dev libmysql-ruby"
       restart
