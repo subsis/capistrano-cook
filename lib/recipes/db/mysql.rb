@@ -1,8 +1,8 @@
 Capistrano::Configuration.instance.load do
   set_default(:db_host,     "localhost")
   set_default(:db_user)     { application }
-  set_default(:db_password) { Capistrano::CLI.password_promp "MySQL Password: "}
-  set_default(:db_root_password) { Capistrano::CLI.password_promp "MySQL root password: "}
+  set_default(:db_password) { Capistrano::CLI.password_prompt "MySQL Password: "}
+  set_default(:db_root_password) { Capistrano::CLI.password_prompt "MySQL root password: "}
   set_default(:db_name)     { "#{application}_#{rails_env}" }
 
   namespace :mysql do

@@ -1,7 +1,7 @@
 Capistrano::Configuration.instance.load do
   set_default(:db_host,     "localhost")
   set_default(:db_user)     { application }
-  set_default(:db_password) { Capistrano::CLI.password_promp "PostgreSQL Password"}
+  set_default(:db_password) { Capistrano::CLI.password_prompt "PostgreSQL Password"}
   set_default(:db_name)     { "#{application}_#{rails_env}" }
 
   namespace :postgresql do
