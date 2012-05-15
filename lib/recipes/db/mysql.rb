@@ -7,6 +7,7 @@ Capistrano::Configuration.instance.load do
   namespace :mysql do
     desc "Install the MySQL server"
     task :install, roles: :db do
+      run "export DEBIAN_FRONTEND=noninteractive"
       run "#{sudo} apt-get -y update "
       run "#{sudo} apt-get -y install mysql-server libmysqlclient-dev libmysql-ruby"
       restart
