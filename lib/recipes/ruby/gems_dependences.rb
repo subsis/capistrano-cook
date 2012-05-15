@@ -4,6 +4,7 @@ Capistrano::Configuration.instance.load do
     task :libv8, role: :app do
       run "#{sudo} apt-get -y update"
       run "#{sudo} apt-get -y install libv8-3.7.12.22 libv8-dev"
+      run "gem install --version '=3.3.10.4' libv8"
     end
     before "bundle:install", "gem_dependences:libv8"
   end
