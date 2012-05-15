@@ -11,7 +11,8 @@ Capistrano::Configuration.instance.load do
     desc "Setup Unicorn initializer and app configuration"
     task :setup, roles: :app do
       run "#{sudo} mkdir -p #{shared_path}/config"
-      template unicorn_template, unicorn_config
+      template unicorn_template, "/tmp/unicorn.rb"
+      run "#{sudo} mv /tmp/unicorn.rb #{unicorn_config}"
       template unicorn_init_template, "/tmp/unicorn_init"
       run "chmod +x /tmp/unicorn_init"
       run "#{sudo} mv /tmp/unicorn_init /etc/init.d/unicorn_#{application}"
