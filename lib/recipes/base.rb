@@ -14,5 +14,11 @@ Capistrano::Configuration.instance.load do
       run "#{sudo} apt-get -y update"
       run "#{sudo} apt-get -y install python-software-properties curl build-essential git-core"
     end
+
+    desc "setup privilages for shared folders"
+    task :setup_privilages do
+      run "#{sudo} chown -R #{user} #{shared_folder}"
+    end
+    after "deploy:setup", "deploy:setup_privilages"
   end
 end
