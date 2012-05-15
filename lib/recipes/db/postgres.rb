@@ -3,7 +3,7 @@ Capistrano::Configuration.instance.load do
   set_default(:db_user)     { application }
   set_default(:db_password) { Capistrano::CLI.password_prompt "PostgreSQL Password"}
   set_default(:db_name)     { "#{application}_#{rails_env}" }
-  set_default(:postgresql_template) { File.expand_path("../templates/postgresql.yml.erb", __FILE__) }
+  set_default(:postgresql_template) { File.expand_path("../../templates/postgresql.yml.erb", __FILE__) }
 
   namespace :postgresql do
     desc "Install the latest reales of PostgreSQL"

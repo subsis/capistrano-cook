@@ -4,7 +4,7 @@ Capistrano::Configuration.instance.load do
   set_default(:db_password) { Capistrano::CLI.password_prompt "MySQL Password: "}
   set_default(:db_root_password) { Capistrano::CLI.password_prompt "MySQL root password: "}
   set_default(:db_name)     { "#{application}_#{rails_env}" }
-  set_default(:mysql_template) { File.expand_path("../templates/mysql.yml.erb", __FILE__) }
+  set_default(:mysql_template) { File.expand_path("../../templates/mysql.yml.erb", __FILE__) }
 
   namespace :mysql do
     desc "Install the MySQL server"
