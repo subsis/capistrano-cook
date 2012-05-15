@@ -8,8 +8,8 @@ Capistrano::Configuration.instance.load do
   namespace :mysql do
     desc "Install the MySQL server"
     task :install, roles: :db do
-      run "echo \"mysql-server mysql-server/root_password select #{db_root_password}\" | debconf-set-selections"
-      run "echo \"mysql-server mysql-server/root_password_again select #{db_root_password}\" | debconf-set-selections"
+      run "#{sudo} echo \"mysql-server mysql-server/root_password select #{db_root_password}\" | debconf-set-selections"
+      run "#{sudo} echo \"mysql-server mysql-server/root_password_again select #{db_root_password}\" | debconf-set-selections"
       run "#{sudo} apt-get -y update "
       run "#{sudo} apt-get -y install mysql-server libmysqlclient-dev libmysql-ruby"
       restart
