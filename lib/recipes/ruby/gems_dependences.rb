@@ -10,9 +10,9 @@ Capistrano::Configuration.instance.load do
     before "bundle:install", "gem_dependences:libv8"
 
     desc "nokogiri dependendce library"
-    task :nokogiri do
+    task :nokogiri, role: :app do
       run "#{sudo} apt-get -y update"
-      run "#{sudo} apt-get -y intsall libxml2 libxml2-dev"
+      run "#{sudo} apt-get -y install libxml2 libxml2-dev"
     end
     after "deploy:setup", "gem_dependences:nokogiri"
   end
