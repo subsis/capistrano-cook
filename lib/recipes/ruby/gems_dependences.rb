@@ -5,7 +5,7 @@ Capistrano::Configuration.instance.load do
   namespace :gem_dependences do
     desc "lib v8 libraries"
     task :libv8, role: :app do
-      run "cd #{shared_path}/bundle; wget 'http://rubygems.org/downloads/libv8-#{libv8_version}-#{system_architecture}.gem'"
+      run "cd #{release_path}/vendor/cache; wget 'http://rubygems.org/downloads/libv8-#{libv8_version}-#{system_architecture}.gem'"
     end
     before "bundle:install", "gem_dependences:libv8"
   end
