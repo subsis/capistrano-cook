@@ -37,10 +37,9 @@ Capistrano::Configuration.instance(true).load do
 
       run "#{command_fetch} #{command_install}", :shell => "#{rvm_install_shell}"
       run "#{File.join(rvm_path, "bin/rvm")} install #{ruby_version} -j #{rvm_install_ruby_threads} #{rvm_install_ruby_params}", :shell => "#{rvm_install_shell}"
-      run "#{File.join(rvm_path, "bin/rvm")} install #{ruby_version} -j #{rvm_install_ruby_threads} #{rvm_install_ruby_params}", :shell => "#{rvm_install_shell}"
       run "#{File.join(rvm_path, "bin/rvm")} #{ruby_version} do rvm gemset create #{rvm_gemset}", :shell => "#{rvm_install_shell}"
       run "#{File.join(rvm_path, "bin/rvm")} use #{ruby_version} --default"
-      run "#{File.join(rvm_path, "bin/gem")} install bundler --no-ri --no-rdoc"
+      run "#{File.join(rvm_path, "bin/rvm")} #{ruby_version} do gem install bundler --no-ri --no-rdoc"
     end
 
     after "deploy:install" do
