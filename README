@@ -1,5 +1,4 @@
-This is Capistrano recipi for lazy precompailng of Rails assets (assets are precompiled only if they were changed)
-
+This is Capistrano recipes ser for Rails application
 Usage
 
 Add to your Gemfile
@@ -12,7 +11,19 @@ bundle install
 
 then add to the end of your deploy.rb file
 
-require "capistrano_cook"
+require "capistrano-cook"
 
-you can run task by
-cap deploy:assets:precompile
+for all of recipes or one or more of:
+
+require "capistrano-cook/assets"
+require "capistrano-cook/fix-gems"
+require "capistrano-cook/mysql"
+require "capistrano-cook/postgresql"
+require "capistrano-cook/nginx"
+require "capistrano-cook/nodjs"
+require "capistrano-cook/rbenv"
+require "capistrano-cook/unicorn"
+
+for more read wiki
+https://github.com/Subsis/capistrano-cook/wiki
+
