@@ -1,19 +1,8 @@
 Capistrano::Configuration.instance(true).load do
   set_default :ruby_installer, :rbenv
-  set :default_shell do
-    shell = File.join(rvm_bin_path, "rvm-shell")
-    ruby = rvm_ruby_string.to_s.strip
-    if "#{ruby}" == "release_path"
-      shell = "rvm_path=#{rvm_path} #{shell} --path '#{release_path}'"
-    else
-      shell = "rvm_path=#{rvm_path} #{shell} '#{ruby}'" unless ruby.empty?
-    end
-    shell
-  end
+  set_default(:rvm_type, :user)
 
- set_default(:rvm_type, :user)
-
- set_default(:rvm_path) do
+  set_default(:rvm_path) do
     case rvm_type
     when :root, :system
       "/usr/local/rvm"
