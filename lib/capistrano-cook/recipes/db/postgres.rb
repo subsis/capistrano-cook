@@ -30,11 +30,17 @@ Capistrano::Configuration.instance.load do
       run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
     end
 
-    if :db_server == :postgresql
-      after "deploy:install", "postgresql:install"
-      after "deploy:setup", "postgresql:create_database"
-      after "deploy:setup", "postgresql:setup"
-      after "deploy:finalize_update", "postgresql:symlink"
+    after "deploy:install" do
+      install if db_server == :postgresql
+    end
+    after "deploy:setup" do
+      if db_server == :postgresql
+        create_database
+        setup
+      end
+    end
+    after "deploy:finalize_update" do
+      symlink if db_server == :postgresql
     end
 
     %w[start stop restart].each do |command|

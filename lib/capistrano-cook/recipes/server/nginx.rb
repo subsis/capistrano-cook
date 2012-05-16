@@ -9,7 +9,9 @@ Capistrano::Configuration.instance.load do
       run "#{sudo} apt-get -y install nginx"
       start
     end
-    after "deploy:install", "nginx:install" if http_server == :nginx
+    after "deploy:install" do
+      install if http_server == :nginx
+    end
 
     task :setup, roles: :web do
       template nginx_template, "/tmp/nginx_conf"
@@ -17,7 +19,9 @@ Capistrano::Configuration.instance.load do
       run "#{sudo} rm -f /etc/nginx/sites-enabled/default"
       restart
     end
-    after "deploy:setup", "nginx:setup" if http_server == :nginx
+    after "deploy:setup" do
+      setup if http_server == :nginx
+    end
 
     %w[start stop restart].each do |command|
       task command, roles: :web do

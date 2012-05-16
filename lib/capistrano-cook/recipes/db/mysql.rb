@@ -35,12 +35,19 @@ Capistrano::Configuration.instance.load do
         run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
     end
 
-    if db_server == :mysql
-      after "deploy:install",         "mysql:install"
-      after "deploy:setup",           "mysql:create_database"
-      after "deploy:setup",           "mysql:setup"
-      after "deploy:finalize_update", "mysql:symlink"
+    after "deploy:install" do
+      install if db_server == :mysql
     end
+    after "deploy:setup" do
+      if db_server == :mysql
+        create_database
+        setup
+      end
+    end
+    after "deploy:finalize_update" do
+      symlink if db_server == :mysql
+    end
+
 
     %w[start stop restart].each do |command|
       task command, roles: :db do
