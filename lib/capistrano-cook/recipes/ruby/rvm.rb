@@ -7,7 +7,7 @@ Capistrano::Configuration.instance(true).load do
     when :root, :system
       "/usr/local/rvm"
     when :local, :user, :default
-      "$HOME/.rvm/"
+      "$HOME/.rvm"
     else
       rvm_type.to_s.empty? ?  "$HOME/.rvm" : rvm_type.to_s
     end
@@ -35,10 +35,11 @@ Capistrano::Configuration.instance(true).load do
       command_install << "#{rvm_install_shell} -s stable --path #{rvm_path}"
 
       run "#{command_fetch} #{command_install}", :shell => "#{rvm_install_shell}"
-      run "#{File.join(rvm_bin_path, "rvm")} install #{ruby_version} -j #{rvm_install_ruby_threads} #{rvm_install_ruby_params}", :shell => "#{rvm_install_shell}"
-      run "#{File.join(rvm_bin_path, "rvm")} #{ruby_version} do rvm gemset create #{rvm_gemset}", :shell => "#{rvm_install_shell}"
-      run "#{File.join(rvm_bin_path, "rvm")} use #{ruby_version} --default"
-      run "#{File.join(rvm_bin_path, "gem")} install bundler --no-ri --no-rdoc"
+      run "source #{rvm_path}/scripts/rvm"
+      run "rvm install #{ruby_version} -j #{rvm_install_ruby_threads} #{rvm_install_ruby_params}", :shell => "#{rvm_install_shell}"
+      run "rvm #{ruby_version} do rvm gemset create #{rvm_gemset}", :shell => "#{rvm_install_shell}"
+      run "rvm  use #{ruby_version} --default"
+      run "gem install bundler --no-ri --no-rdoc"
     end
 
     after "deploy:install" do
@@ -47,10 +48,10 @@ Capistrano::Configuration.instance(true).load do
 
     desc "Reinstall Ruby, and the Bundler gem"
     task :reinstall_ruby, roles: :app do
-      run "#{File.join(rvm_bin_path, "rvm")} reinstall #{ruby_version} -j #{rvm_install_ruby_threads} #{rvm_install_ruby_params}", :shell => "#{rvm_install_shell}"
-      run "#{File.join(rvm_bin_path, "rvm")} #{ruby_version} do rvm gemset create #{rvm_gemset}", :shell => "#{rvm_install_shell}"
-      run "#{File.join(rvm_bin_path, "rvm")} use #{ruby_version} --default"
-      run "#{File.join(rvm_bin_path, "gem")} install bundler --no-ri --no-rdoc"
+      run "rvm reinstall #{ruby_version} -j #{rvm_install_ruby_threads} #{rvm_install_ruby_params}", :shell => "#{rvm_install_shell}"
+      run "rvm #{ruby_version} do rvm gemset create #{rvm_gemset}", :shell => "#{rvm_install_shell}"
+      run "rvm use #{ruby_version} --default"
+      run "gem install bundler --no-ri --no-rdoc"
     end
   end
 end
