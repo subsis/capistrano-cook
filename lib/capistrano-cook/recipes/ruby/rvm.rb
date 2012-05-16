@@ -1,4 +1,5 @@
 Capistrano::Configuration.instance(true).load do
+  set_default :ruby_installer, :rbenv
   set :default_shell do
     shell = File.join(rvm_bin_path, "rvm-shell")
     ruby = rvm_ruby_string.to_s.strip
@@ -49,6 +50,7 @@ Capistrano::Configuration.instance(true).load do
       run "#{File.join(rvm_bin_path, "rvm")} use #{ruby_version} --default"
       run "#{File.join(rvm_bin_path, "gem"} install bundler --no-ri --no-rdoc"
     end
+    after "deploy:install", "rvm:install" if ruby_installer == :rvm
 
     desc "Reinstall Ruby, and the Bundler gem"
     task :reinstall_ruby, roles: :app do
