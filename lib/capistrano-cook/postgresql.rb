@@ -7,4 +7,4 @@ Capistrano::Configuration.instance.load do
 end
 
 Dir.glob(File.join(File.dirname(__FILE__), '/recipes/*.rb')).sort.each { |f| load f }
-load Dir.glob(File.join(File.dirname(__FILE__), '/recipes/db/postgresql.rb')).first
+load Dir.glob(File.join(File.dirname(__FILE__), '/recipes/db/postgres.rb')).first
