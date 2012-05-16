@@ -26,5 +26,13 @@ BASHRC
       run "rbenv rehash"
     end
     after "deploy:install", "rbenv:install" if ruby_installer == :rbenv
+
+    desc "Reinstall Ruby, and the Bundler gem"
+    task :reinstall_ruby, roles: :app do
+      run "rbenv install #{ruby_version}"
+      run "rbenv global #{ruby_version}"
+      run "gem install bundler --no-ri --no-rdoc"
+      run "rbenv rehash"
+    end
   end
 end
