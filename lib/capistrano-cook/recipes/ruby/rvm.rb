@@ -40,8 +40,8 @@ Capistrano::Configuration.instance(true).load do
       run "#{File.join(rvm_bin_path, "gem")} install bundler --no-ri --no-rdoc"
     end
 
-    if ruby_installer == :rvm
-      after "deploy:install", "rvm:install"
+    after "deploy:install" do
+      install if ruby_installer == :rvm
     end
 
     desc "Reinstall Ruby, and the Bundler gem"
