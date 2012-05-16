@@ -37,6 +37,7 @@ Capistrano::Configuration.instance(true).load do
 
       run "#{command_fetch} #{command_install}", :shell => "#{rvm_install_shell}"
       run "export PATH=\"#{rvm_path}/bin:$PATH\""
+      run %q{eval "rvm"}
       run "rvm install #{ruby_version} -j #{rvm_install_ruby_threads} #{rvm_install_ruby_params}", :shell => "#{rvm_install_shell}"
       run "rvm install #{ruby_version} -j #{rvm_install_ruby_threads} #{rvm_install_ruby_params}", :shell => "#{rvm_install_shell}"
       run "rvm #{ruby_version} do rvm gemset create #{rvm_gemset}", :shell => "#{rvm_install_shell}"
