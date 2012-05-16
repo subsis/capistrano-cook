@@ -4,6 +4,7 @@ Capistrano::Configuration.instance.load do
   set_default(:db_password) { Capistrano::CLI.password_prompt "PostgreSQL Password"}
   set_default(:db_name)     { "#{application}_#{rails_env}" }
   set_default(:postgresql_template) { File.expand_path("../../templates/postgresql.yml.erb", __FILE__) }
+  set_default(:db_server, :postgresql)
 
   namespace :postgresql do
     desc "Install the latest reales of PostgreSQL"
@@ -12,26 +13,29 @@ Capistrano::Configuration.instance.load do
       run "#{sudo} apt-get -y update "
       run "#{sudo} apt-get -y install postgresql libpq-dev"
     end
-    after "deploy:install", "postgresql:install"
 
     desc "Create user and database for the application"
     task :create_database, roles: :db do
       run %Q{#{sudo} -u postgres psql -c "create user #{db_user} with password #{db_password};"}
       run %Q{#{sudo} -u postgres psql -c "create databse #{db_name} owner #{db_user};"}
     end
-    after "deploy:setup", "postgresql:create_database"
 
     task :setup, roles: :app do
       run "mkdir -p #{shared_path}/config"
       template postgresql_template, "#{shared_path}/config/database.yml"
     end
-    after "deploy:setup", "postgresql:setup"
 
     desc "Symlink the database.yml file into latest release"
     task :symlink, roles: :app do
       run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
     end
-    after "deploy:finalize_update", "postgresql:symlink"
+
+    if :db_server == :postgresql
+      after "deploy:install", "postgresql:install"
+      after "deploy:setup", "postgresql:create_database"
+      after "deploy:setup", "postgresql:setup"
+      after "deploy:finalize_update", "postgresql:symlink"
+    end
 
     %w[start stop restart].each do |command|
       task command, roles: :db do

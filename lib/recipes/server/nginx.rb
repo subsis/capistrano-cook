@@ -1,5 +1,6 @@
 Capistrano::Configuration.instance.load do
   set_default(:nginx_template) { File.expand_path("../../templates/nginx_unicorn.erb", __FILE__) }
+  set_default(:http_server, :nginx)
 
   namespace :nginx do
     task :install, roles: :web do
@@ -8,7 +9,7 @@ Capistrano::Configuration.instance.load do
       run "#{sudo} apt-get -y install nginx"
       start
     end
-    after "deploy:install", "nginx:install"
+    after "deploy:install", "nginx:install" if http_server == :nginx
 
     task :setup, roles: :web do
       template nginx_template, "/tmp/nginx_conf"
@@ -16,7 +17,7 @@ Capistrano::Configuration.instance.load do
       run "#{sudo} rm -f /etc/nginx/sites-enabled/default"
       restart
     end
-    after "deploy:setup", "nginx:setup"
+    after "deploy:setup", "nginx:setup" if http_server == :nginx
 
     %w[start stop restart].each do |command|
       task command, roles: :web do

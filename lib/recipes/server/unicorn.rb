@@ -6,6 +6,7 @@ Capistrano::Configuration.instance.load do
   set_default(:unicorn_config)        { "#{shared_path}/config/unicorn.rb" }
   set_default(:unicorn_log)           { "#{shared_path}/log/unicorn.log" }
   set_default(:unicorn_workers, 2)
+  set_default(:rails_server, :unicorn)
 
   namespace :unicorn do
     desc "Setup Unicorn initializer and app configuration"
@@ -18,14 +19,14 @@ Capistrano::Configuration.instance.load do
       run "#{sudo} mv /tmp/unicorn_init /etc/init.d/unicorn_#{application}"
       run "#{sudo} update-rc.d -f unicorn_#{application} defaults"
     end
-    after "deploy:setup", "unicorn:setup"
+    after "deploy:setup", "unicorn:setup" if rails_server == :unicorn
 
     %w[start stop restart].each do |command|
       desc "#{command} unicorn"
       task command, roles: :app do
         run "service unicorn_#{application} #{command}"
       end
-      after "deploy:#{command}", "unicorn:#{command}"
+      after "deploy:#{command}", "unicorn:#{command}" if rails_server == :unicorn
     end
   end
 end

@@ -1,6 +1,5 @@
 Capistrano::Configuration.instance.load do
   def template(from, to)
-    #erb = File.read(File.expand_path("../templates/#{from}", __FILE__))
     erb = File.read(from)
     put ERB.new(erb).result(binding), to
   end
@@ -16,7 +15,7 @@ Capistrano::Configuration.instance.load do
       run "#{sudo} apt-get -y install python-software-properties curl build-essential git-core"
     end
 
-    desc "setup privilages for shared folders"
+    desc "fix privilages for shared folders"
     task :setup_privilages do
       run "#{sudo} chown -R #{user} #{shared_path}"
       run "#{sudo} chown -R #{user} #{deploy_to}"

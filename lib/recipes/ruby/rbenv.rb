@@ -1,6 +1,7 @@
 Capistrano::Configuration.instance.load do
   set_default :ruby_version, "1.9.3-p125"
   set_default :rbenv_bootstrap, "bootstrap-ubuntu-10-04"
+  set_default :ruby_installer, :rbenv
 
   namespace :rbenv do
     desc "Install rbenv, Ruby, and the Bundler gem"
@@ -24,6 +25,6 @@ BASHRC
       run "gem install bundler --no-ri --no-rdoc"
       run "rbenv rehash"
     end
-    after "deploy:install", "rbenv:install"
+    after "deploy:install", "rbenv:install" if ruby_installer == :rbenv
   end
 end
