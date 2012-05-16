@@ -17,7 +17,7 @@ Capistrano::Configuration.instance.load do
     desc "Create user and database for the application"
     task :create_database, roles: :db do
       run %Q{#{sudo} -u postgres psql -c "create user #{db_user} with password '#{db_password}';"}
-      run %Q{#{sudo} -u postgres psql -c "create databse #{db_name} owner #{db_user};"}
+      run %Q{#{sudo} -u postgres psql -c "create database #{db_name} owner #{db_user};"}
     end
 
     task :setup, roles: :app do
