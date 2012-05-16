@@ -2,25 +2,29 @@ Capistrano::Configuration.instance.load do
   set_default :libv8_version, "3.3.10.2"
   set_default :system_architecture, "x86-linux"
 
+  set_default :libv8,    false
+  set_default :nokogiri, false
+  set_default :patron,   false
+
   namespace :gem_dependences do
     desc "lib v8 libraries"
     task :libv8, role: :app do
       run "cd #{release_path}/vendor/cache; wget 'http://rubygems.org/downloads/libv8-#{libv8_version}-#{system_architecture}.gem'"
     end
-    before "bundle:install", "gem_dependences:libv8"  if exists?(libv8) && libv8 == true
+    before "bundle:install", "gem_dependences:libv8"  if libv8 == true
 
     desc "nokogiri dependendce library"
     task :nokogiri, role: :app do
       run "#{sudo} apt-get -y update"
       run "#{sudo} apt-get -y install libxml2 libxml2-dev libxslt1-dev"
     end
-    after "deploy:setup", "gem_dependences:nokogiri" if exists?(nokogiri) && nokogiri == true
+    after "deploy:setup", "gem_dependences:nokogiri" if nokogiri == true
 
     desc "patron dependendce library"
     task :patron, role: :app do
       run "#{sudo} apt-get -y update"
       run "#{sudo} apt-get -y install libcurl4-openssl-dev"
     end
-    after "deploy:setup", "gem_dependences:patron" if exists?(patron) && patron == true
+    after "deploy:setup", "gem_dependences:patron" if patron == true
   end
 end
