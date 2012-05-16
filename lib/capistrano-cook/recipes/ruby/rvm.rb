@@ -23,6 +23,7 @@ Capistrano::Configuration.instance(true).load do
     desc "Install RVM, Ruby, create Gemset and install bundler"
     task :install, roles: :app do
       command_fetch="curl -L get.rvm.io | "
+      command_install = ""
       case rvm_type
       when :root, :system
         if use_sudo == false && rvm_install_with_sudo == false
