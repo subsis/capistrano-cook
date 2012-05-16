@@ -15,6 +15,7 @@ Capistrano::Configuration.instance(true).load do
 
   set_default :ruby_version, "1.9.3-p125"
   set_default :rvm_gemset, "rails"
+  set_default :rvm_install_ruby_params, ""
   set_default(:rvm_install_with_sudo, false)
   set_default(:rvm_install_shell, :bash)
   set_default(:rvm_install_ruby_threads, "$(cat /proc/cpuinfo | grep vendor_id | wc -l)")
