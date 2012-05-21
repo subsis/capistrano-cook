@@ -1,29 +1,29 @@
-This is Capistrano recipes ser for Rails application
-Usage
+# Installation
 
-Add to your Gemfile
+Add to your Gemfile:
 
-gem 'capistrano-cook', :git => 'git@github.com:Subsis/capistrano-cook.git'
+    gem 'capistrano-cook', :git => 'git@github.com:Subsis/capistrano-cook.git'
 
-run
+then run:
 
-bundle install
+    bundle install
 
-then add to the end of your deploy.rb file
+# Configuration
 
-require "capistrano-cook"
+To use the default configuration, add the following to the end of your `deploy.rb` file:
 
-for all of recipes or one or more of:
+    require "capistrano-cook"
 
-require "capistrano-cook/assets"
-require "capistrano-cook/fix-gems"
-require "capistrano-cook/mysql"
-require "capistrano-cook/postgresql"
-require "capistrano-cook/nginx"
-require "capistrano-cook/nodjs"
-require "capistrano-cook/rbenv"
-require "capistrano-cook/unicorn"
+If you want to customize what recipes to include, pick one or more of the following lines:
 
-for more read wiki
-https://github.com/Subsis/capistrano-cook/wiki
+    require "capistrano-cook/assets"
+    require "capistrano-cook/fix-gems"
+    require "capistrano-cook/mysql"
+    require "capistrano-cook/postgresql"
+    require "capistrano-cook/nginx"
+    require "capistrano-cook/nodjs"
+    require "capistrano-cook/rbenv"
+    require "capistrano-cook/unicorn"
+
+For more documentation, [read the wiki](https://github.com/Subsis/capistrano-cook/wiki).
 
