@@ -1,5 +1,5 @@
 Capistrano::Configuration.instance.load do
-  set_default(:nginx_template) { File.expand_path("../../templates/nginx_unicorn.erb", __FILE__) }
+  set_default(:nginx_template) { "nginx_unicorn.erb" }
   set_default(:http_server, :nginx)
 
   namespace :nginx do

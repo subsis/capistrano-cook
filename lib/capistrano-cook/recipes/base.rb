@@ -1,6 +1,6 @@
 Capistrano::Configuration.instance.load do
   def template(from, to)
-    erb = File.read(from)
+    erb = File.read(File.expand_path("templates/#{from}", File.dirname(__FILE__)))
     put ERB.new(erb).result(binding), to
   end
 
