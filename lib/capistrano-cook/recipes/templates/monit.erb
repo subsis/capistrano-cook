@@ -1,0 +1,9 @@
+<% unicorn_workers.times do |i| %>
+check process unicorn_worker_<%= i %>
+    with pidfile <%= shared_path %>/pids/unicorn.<%= i %>.pid
+    start program = "/bin/cat /dev/null"
+    stop program = "/bin/bash -c 'kill -s QUIT `cat <%= shared_path %>/pids/unicorn.<%= i %>.pid`'"
+    if mem is greater than <%= monit_mem_restart %> for 1 cycles then restart
+    if cpu is greater than <%= monit_cpu_alert %> for 2 cycles then alert
+    if cpu is greater than <%= monit_cpu_restart %> for 1 cycles then restart
+<% end %>
