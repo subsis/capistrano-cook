@@ -25,13 +25,6 @@ Capistrano::Configuration.instance.load do
       run "#{sudo} mv /tmp/unicorn_init /etc/init.d/unicorn_#{application}"
       run "#{sudo} update-rc.d -f unicorn_#{application} defaults"
     end
-    after "deploy:setup" do
-      setup if rails_server == :unicorn
-    end
-
-    after "deploy:update_code" do
-      update_config if rails_server == :unicorn
-    end
 
     %w[start stop restart].each do |command|
       desc "#{command} unicorn"
@@ -39,6 +32,12 @@ Capistrano::Configuration.instance.load do
         run "service unicorn_#{application} #{command}"
       end
       after "deploy:#{command}", "unicorn:#{command}" if rails_server == :unicorn
+    end
+
+    if rails_server == :unicorn
+      after "deploy:install",     "unicorn:install"
+      after "deploy:setup",       "unicorn:setup"
+      after "deploy:update_code", "unicorn:update_config"
     end
   end
 end
