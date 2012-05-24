@@ -2,7 +2,7 @@
 
 Add to your Gemfile:
 
-    gem 'capistrano-cook', :git => 'git@github.com:Subsis/capistrano-cook.git'
+    gem 'capistrano-cook', :git => 'git@github.com:subsis/capistrano-cook.git'
 
 then run:
 
