@@ -1,5 +1,5 @@
 Capistrano::Configuration.instance.load do
-  set_default(:nodejs, true)
+  set_default(:install_nodejs, true)
   namespace :nodejs do
     desc "Install the latest relase of Node.js"
     task :install, roles: :app do
@@ -8,8 +8,8 @@ Capistrano::Configuration.instance.load do
       run "#{sudo} apt-get -y install nodejs"
     end
     after "deploy:install" do
-      logger.info "Node js installation: #{nodejs}"
-      install if nodejs == true
+      logger.info "Node js installation: #{install_nodejs}"
+      install if install_nodejs == true
     end
   end
 end

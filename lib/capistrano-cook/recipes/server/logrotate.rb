@@ -1,5 +1,5 @@
 Capistrano::Configuration.instance.load do
-  set_default(:logorate, true)
+  set_default(:install_logorate, true)
   namespace :logrotate do
     task :setup, roles: :web do
       template "logrotate.erb", "/tmp/logrotate"
@@ -7,7 +7,7 @@ Capistrano::Configuration.instance.load do
     end
 
     after "deploy:setup" do
-      setup if logrotate
+      setup if install_logorate == true
     end
   end
 end
