@@ -8,6 +8,7 @@ Capistrano::Configuration.instance.load do
       run "#{sudo} apt-get -y install nodejs"
     end
     after "deploy:install" do
+      logger.info "Node js installation: #{nodejs}"
       install if nodejs == true
     end
   end
