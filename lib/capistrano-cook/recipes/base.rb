@@ -1,8 +1,8 @@
 Capistrano::Configuration.instance.load do
   def template(from, to)
     logger.info "template #{File.absolute_path('deploy/template' + from)}"
-    if File.exists?("deploy/templates/#{from}"))
-      erb = File.read("deploy/templates/#{from}"))
+    if File.exists?("deploy/templates/#{from}")
+      erb = File.read("deploy/templates/#{from}")
     else
       erb = File.read(File.expand_path("templates/#{from}", File.dirname(__FILE__)))
     end
