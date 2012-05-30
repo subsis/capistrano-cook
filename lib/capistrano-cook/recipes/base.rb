@@ -1,6 +1,10 @@
 Capistrano::Configuration.instance.load do
   def template(from, to)
-    erb = File.read(File.expand_path("templates/#{from}", File.dirname(__FILE__)))
+    if File.exists?(File.expand_path("deploy/templates/#{from}", Rails.root))
+      erb = File.read(File.expand_path("deploy/templates/#{from}", Rails.root))
+    else
+      erb = File.read(File.expand_path("templates/#{from}", File.dirname(__FILE__)))
+    end
     put ERB.new(erb).result(binding), to
   end
 
