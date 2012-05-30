@@ -34,10 +34,12 @@ Capistrano::Configuration.instance.load do
       after "deploy:#{command}", "unicorn:#{command}" if rails_server == :unicorn
     end
 
-    if rails_server == :unicorn
-      after "deploy:install",     "unicorn:install"
-      after "deploy:setup",       "unicorn:setup"
-      after "deploy:update_code", "unicorn:update_config"
+    after "deploy:setup" do
+      setup if rails_server == :unicorn
+    end
+
+    after "deploy:update_code" do
+      update_config if rails_server == :unicorn
     end
   end
 end

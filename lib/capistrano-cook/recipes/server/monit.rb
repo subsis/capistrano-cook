@@ -21,10 +21,16 @@ Capistrano::Configuration.instance.load do
       end
     end
 
-    if rails_server == :unicorn
-      after "deploy:install",        "monit:install"
-      after "unicorn:update_config", "monit:setup"
-      after "deploy:setup",          "monit:setup"
+    after "deploy:install" do
+      install if rails_server == :unicorn
+    end
+
+    after "deploy:setup" do
+      setup if rails_server == :unicorn
+    end
+
+    after "unicorn:update_config" do
+      setup if rails_server == :unicorn
     end
   end
 end
