@@ -27,4 +27,19 @@ Capistrano::Configuration.instance.load do
     end
     after "deploy:setup", "deploy:setup_privilages"
   end
+
+  namespace :root do
+    desc "create depoly user and add proper privilages"
+    task :add_user do
+      set_default(:usr_password) { Capistrano::CLI.password_prompt "Password for new user:" }
+      set :base_user, user
+      set :user, 'root'
+      run "addgroup admin"
+      run "useradd -G admin -mU #{base_user}"
+      run "echo '#{usr_password}\n#{usr_password}' >> tmp_pass"
+      run "passwd #{base_user} < tmp_pass"
+      run "rm tmp_pass"
+      set :user, base_user
+    end
+  end
 end
