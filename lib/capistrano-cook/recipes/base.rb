@@ -34,7 +34,11 @@ Capistrano::Configuration.instance.load do
       set_default(:usr_password) { Capistrano::CLI.password_prompt "Password for new user:" }
       set :base_user, user
       set :user, 'root'
-      run "addgroup admin"
+      begin
+        run "addgroup admin"
+      rescue Capistrano::CommandError => e
+        logger.info "group admin already exists."
+      end
       run "useradd -G admin -mU #{base_user}"
       run "echo '#{usr_password}\n#{usr_password}' >> tmp_pass"
       run "passwd #{base_user} < tmp_pass"
