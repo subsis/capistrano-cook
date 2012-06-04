@@ -40,7 +40,8 @@ Capistrano::Configuration.instance.load do
         logger.info "group admin already exists."
       end
       run "useradd -G admin -mU #{base_user}"
-      run "echo '#{usr_password}\n#{usr_password}' >> tmp_pass"
+      run "echo '#{usr_password}' >  tmp_pass"
+      run "echo '#{usr_password}' >> tmp_pass"
       run "passwd #{base_user} < tmp_pass"
       run "rm tmp_pass"
       set :user, base_user
