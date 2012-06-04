@@ -3,6 +3,7 @@ Capistrano::Configuration.instance.load do
   set_default(:http_server, :nginx)
 
   namespace :nginx do
+    desc "Install nginx server"
     task :install, roles: :web do
       run "#{sudo} add-apt-repository -y ppa:nginx/stable"
       run "#{sudo} apt-get -y update "
@@ -10,6 +11,7 @@ Capistrano::Configuration.instance.load do
       start
     end
 
+    desc "Setup nginx configuration"
     task :setup, roles: :web do
       template nginx_template, "/tmp/nginx_conf"
       run "#{sudo} mv /tmp/nginx_conf /etc/nginx/sites-enabled/#{application}"
@@ -18,6 +20,7 @@ Capistrano::Configuration.instance.load do
     end
 
     %w[start stop restart reload].each do |command|
+      desc "#{command} nginx server"
       task command, roles: :web do
         run "#{sudo} service nginx #{command}"
       end

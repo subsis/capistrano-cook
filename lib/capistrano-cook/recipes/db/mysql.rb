@@ -70,6 +70,7 @@ Capistrano::Configuration.instance.load do
 
 
     %w[start stop restart].each do |command|
+      desc "#{command} MySQL server"
       task command, roles: :db do
         run "#{sudo} service mysql #{command}"
       end

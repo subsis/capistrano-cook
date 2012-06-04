@@ -29,6 +29,7 @@ Capistrano::Configuration.instance.load do
       run %Q{#{sudo} -u postgres psql -c "create database #{db_name} owner #{db_user};"}
     end
 
+    desc "Create database.yml file. Task should be run together with postgres:create_database."
     task :setup, roles: :app do
       run "mkdir -p #{shared_path}/config"
       template postgresql_template, "#{shared_path}/config/database.yml"
@@ -53,6 +54,7 @@ Capistrano::Configuration.instance.load do
     end
 
     %w[start stop restart].each do |command|
+      desc "#{command} PostgreSQL server"
       task command, roles: :db do
         run "#{sudo} service postgresql #{command}"
       end

@@ -5,10 +5,12 @@ Capistrano::Configuration.instance.load do
   set_default :monit_cpu_restart, "25%"
 
   namespace :monit do
+    desc "Install monit. Works with unicorn server"
     task :install, roles: :app do
       run "#{sudo} apt-get install monit -y"
     end
 
+    desc "Create configuration files for monit"
     task :setup, roles: :app do
       template "monit.erb", "/tmp/monit"
       run "#{sudo} mv /tmp/monit /etc/monit/conf.d/#{application}"
@@ -16,6 +18,7 @@ Capistrano::Configuration.instance.load do
     end
 
     %w[start stop restart reload].each do |command|
+      desc "#{command} monit"
       task command, roles: :web do
         run "#{sudo} service monit #{command}"
       end
