@@ -1,3 +1,5 @@
+require "digest"
+
 Capistrano::Configuration.instance.load do
   def template(from, to)
     if File.exists?("deploy/templates/#{from}")
@@ -12,6 +14,11 @@ Capistrano::Configuration.instance.load do
   def set_default(name, *args, &block)
     set(name, *args, &block) unless  exists?(name)
   end
+
+  def generate_password(len=16)
+    Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{user}--")[0,len]
+  end
+
 
   namespace :deploy do
     desc "Install everything on server"

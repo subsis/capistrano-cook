@@ -1,10 +1,18 @@
 Capistrano::Configuration.instance.load do
   set_default(:db_host,     "localhost")
   set_default(:db_user)     { application }
-  set_default(:db_password) { Capistrano::CLI.password_prompt "PostgreSQL Password"}
+  set_default(:db_generate_password, true)
   set_default(:db_name)     { "#{application}_#{rails_env}" }
   set_default(:postgresql_template) { "postgresql.yml.erb" }
   set_default(:db_server, :postgresql)
+  set_default(:db_password) {
+    if db_generate_password
+     logger.info "Database password will be generated"
+     return generate_password(24)
+    else
+     return Capistrano::CLI.password_prompt "PostgreSQL Password: "
+    end
+  }
 
   namespace :postgresql do
     desc "Install the latest reales of PostgreSQL"
