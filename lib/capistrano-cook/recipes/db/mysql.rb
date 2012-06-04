@@ -11,7 +11,7 @@ Capistrano::Configuration.instance.load do
      logger.info "Database password will be generated"
      passwd = generate_password(24)
     else
-     passwd = return Capistrano::CLI.password_prompt "MySQL Password: "
+     passwd = Capistrano::CLI.password_prompt "MySQL Password: "
     end
     passwd
   }
@@ -43,6 +43,7 @@ Capistrano::Configuration.instance.load do
       run %Q{mysql -u root --password=#{db_root_password} -e "GRANT ALL PRIVILEGES ON *.* TO '#{db_user}'@'#{db_host}'"}
     end
 
+    desc "Create database.yml file"
     task :setup, roles: :app do
       run "#{sudo} mkdir -p #{shared_path}/config"
       template mysql_template, "/tmp/mysql.yml"
