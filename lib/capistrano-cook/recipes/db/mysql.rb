@@ -9,20 +9,21 @@ Capistrano::Configuration.instance.load do
   set_default(:db_password) {
     if db_generate_password
      logger.info "Database password will be generated"
-     return generate_password(24)
+     passwd = generate_password(24)
     else
-     return Capistrano::CLI.password_prompt "MySQL Password: "
+     passwd = return Capistrano::CLI.password_prompt "MySQL Password: "
     end
+    passwd
   }
   set_default(:db_root_password) {
     if db_generate_root_password
-     logger.info "Mysql root password will be generated"
-     root_passwd = generate_password(16)
-     logger.info "Mysql root password: #{root_passwd} \n You have to save this password"
-     return root_passwd
+      logger.info "Mysql root password will be generated"
+      root_passwd = generate_password(16)
+      logger.info "Mysql root password: #{root_passwd} \n You have to save this password"
     else
-      return Capistrano::CLI.password_prompt "MySQL root password: "
+      root_passwd = Capistrano::CLI.password_prompt "MySQL root password: "
     end
+    root_passwd
   }
 
   namespace :mysql do

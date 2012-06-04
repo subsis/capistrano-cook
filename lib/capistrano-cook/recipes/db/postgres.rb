@@ -7,11 +7,12 @@ Capistrano::Configuration.instance.load do
   set_default(:db_server, :postgresql)
   set_default(:db_password) {
     if db_generate_password
-     logger.info "Database password will be generated"
-     return generate_password(24)
+      logger.info "Database password will be generated"
+      passed = generate_password(24)
     else
-     return Capistrano::CLI.password_prompt "PostgreSQL Password: "
+      passwd = Capistrano::CLI.password_prompt "PostgreSQL Password: "
     end
+    passwd
   }
 
   namespace :postgresql do
