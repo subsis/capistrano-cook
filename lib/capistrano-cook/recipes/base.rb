@@ -46,7 +46,7 @@ Capistrano::Configuration.instance.load do
       rescue Capistrano::CommandError => e
         logger.info "group admin already exists."
       end
-      run "useradd -G admin -mU #{base_user}"
+      run "useradd -s /bin/bash -G admin -mU #{base_user}"
       run "echo '#{usr_password}' >  tmp_pass"
       run "echo '#{usr_password}' >> tmp_pass"
       run "passwd #{base_user} < tmp_pass"
