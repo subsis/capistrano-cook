@@ -10,14 +10,14 @@ Capistrano::Configuration.instance.load do
 
   namespace :unicorn do
     desc "Update Unicorn app configuration"
-    task :update_config, roles: :app do
+    task :update_config, :roles => :app do
       run "#{sudo} mkdir -p #{shared_path}/config"
       template unicorn_template, "/tmp/unicorn.rb"
       run "#{sudo} mv /tmp/unicorn.rb #{unicorn_config}"
     end
 
     desc "Setup Unicorn initializer and app configuration"
-    task :setup, roles: :app do
+    task :setup, :roles => :app do
       update_config
 
       template unicorn_init_template, "/tmp/unicorn_init"
@@ -28,7 +28,7 @@ Capistrano::Configuration.instance.load do
 
     %w[start stop restart].each do |command|
       desc "#{command} unicorn"
-      task command, roles: :app do
+      task command, :roles => :app do
         run "service unicorn_#{application} #{command}"
       end
       after "deploy:#{command}", "unicorn:#{command}" if rails_server == :unicorn

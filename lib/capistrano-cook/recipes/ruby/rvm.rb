@@ -22,7 +22,7 @@ Capistrano::Configuration.instance(true).load do
 
   namespace :rvm do
     desc "Install RVM, Ruby, create Gemset and install bundler"
-    task :install, roles: :app do
+    task :install, :roles => :app do
       command_fetch="curl -L get.rvm.io | "
       command_install = ""
       case rvm_type
@@ -47,7 +47,7 @@ Capistrano::Configuration.instance(true).load do
     end
 
     desc "Reinstall Ruby, and the Bundler gem"
-    task :reinstall_ruby, roles: :app do
+    task :reinstall_ruby, :roles => :app do
       run "rvm reinstall #{ruby_version} -j #{rvm_install_ruby_threads} #{rvm_install_ruby_params}", :shell => "#{rvm_install_shell}"
       run "rvm #{ruby_version} do rvm gemset create #{rvm_gemset}", :shell => "#{rvm_install_shell}"
       run "rvm use #{ruby_version} --default"

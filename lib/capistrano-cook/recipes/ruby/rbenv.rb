@@ -5,7 +5,7 @@ Capistrano::Configuration.instance.load do
 
   namespace :rbenv do
     desc "Install rbenv, Ruby, and the Bundler gem"
-    task :install, roles: :app do
+    task :install, :roles => :app do
       logger.info "ruby_installer set to #{ruby_installer}"
       run "#{sudo} apt-get -y install curl git-core libreadline-dev"
       run "curl -L https://raw.github.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash"
@@ -33,7 +33,7 @@ BASHRC
     end
 
     desc "Reinstall Ruby, and the Bundler gem"
-    task :reinstall_ruby, roles: :app do
+    task :reinstall_ruby, :roles => :app do
       run "rbenv install #{ruby_version}"
       run "rbenv global #{ruby_version}"
       run "gem install bundler --no-ri --no-rdoc"

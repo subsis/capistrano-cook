@@ -2,7 +2,7 @@ Capistrano::Configuration.instance.load do
   set_default(:install_logorate, true)
   namespace :logrotate do
     desc "Setup logorate"
-    task :setup, roles: :web do
+    task :setup, :roles => :web do
       template "logrotate.erb", "/tmp/logrotate"
       run "#{sudo} mv /tmp/logrotate /etc/logrotate.d/#{application}"
     end
