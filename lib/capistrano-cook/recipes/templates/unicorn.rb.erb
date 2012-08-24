@@ -14,7 +14,7 @@ listen "/tmp/unicorn.<%= application %>.sock"
 worker_processes <%= unicorn_workers %>
 
 # Restart any workers that haven't responded in 30 seconds (60 is default).
-timeout 30
+timeout <%= unicorn_timeout %>
 
 # Load rails+application into the master before forking workers
 # for super-fast worker spawn times

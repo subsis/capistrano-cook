@@ -6,6 +6,7 @@ Capistrano::Configuration.instance.load do
   set_default(:unicorn_config)        { "#{shared_path}/config/unicorn.rb" }
   set_default(:unicorn_log)           { "#{shared_path}/log/unicorn.log" }
   set_default(:unicorn_workers, 2)
+  set_default(:unicorn_timeout, 30)
   set_default(:rails_server, :unicorn)
 
   namespace :unicorn do
