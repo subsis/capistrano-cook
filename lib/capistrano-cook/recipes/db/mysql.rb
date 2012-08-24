@@ -1,9 +1,10 @@
 Capistrano::Configuration.instance.load do
-  set_default(:db_host,     "localhost")
-  set_default(:db_user)     { application }
+  set_default(:db_host,        "localhost")
+  set_default(:db_user)        { application }
   set_default(:db_generate_password, true)
   set_default(:db_generate_root_password, false)
-  set_default(:db_name)     { "#{application}_#{rails_env}" }
+  set_default(:db_name)        { "#{application}_#{rails_env}" }
+  set_default(:db_adapter)     { "mysql2" }
   set_default(:mysql_template) { "mysql.yml.erb" }
   set_default(:db_server, :mysql)
   set_default(:db_password) {
