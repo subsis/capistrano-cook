@@ -6,7 +6,7 @@ Capistrano::Configuration.instance.load do
       logger.info "using template form #{File.absolute_path('deploy/template/' + from)}"
       erb = File.read("deploy/templates/#{from}")
     else
-      erb = File.read(File.expand_path("templates/#{from}", File.dirname(__FILE__)))
+      erb = File.read(File.expand_path("templates/#{from}", File.dirname(__FILE__)[0...-3]))
     end
     put ERB.new(erb).result(binding), to
   end
