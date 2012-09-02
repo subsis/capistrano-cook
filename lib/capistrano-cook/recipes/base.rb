@@ -1,5 +1,10 @@
 require "digest"
 
+puts ""
+puts "In base.rb"
+puts "Capistrano respons to #{Capistrano::Configuration.respond_to?(:instance)}"
+puts ""
+
 Capistrano::Configuration.instance.load do
   def template(from, to)
     if File.exists?("deploy/templates/#{from}")
