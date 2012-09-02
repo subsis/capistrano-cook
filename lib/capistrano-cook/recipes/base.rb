@@ -6,7 +6,7 @@ puts "Capistrano responds to instance: #{Capistrano::Configuration.respond_to?(:
 puts "Capistrano.instance responds to load: #{Capistrano::Configuration.instance.respond_to?(:load)}"
 puts ""
 
-Capistrano::Configuration.instance.load do
+Capistrano::Configuration.instance.load({}) do
   def template(from, to)
     if File.exists?("deploy/templates/#{from}")
       logger.info "using template form #{File.absolute_path('deploy/template/' + from)}"
