@@ -21,7 +21,7 @@ If you want to customize what recipes to include, pick one or more of the follow
     require "capistrano-cook/mysql"
     require "capistrano-cook/postgresql"
     require "capistrano-cook/nginx"
-    require "capistrano-cook/nodjs"
+    require "capistrano-cook/nodejs"
     require "capistrano-cook/rbenv"
     require "capistrano-cook/unicorn"
 
