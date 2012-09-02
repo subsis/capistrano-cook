@@ -2,7 +2,8 @@ require "digest"
 
 puts ""
 puts "In base.rb"
-puts "Capistrano respons to #{Capistrano::Configuration.respond_to?(:instance)}"
+puts "Capistrano responds to instance: #{Capistrano::Configuration.respond_to?(:instance)}"
+puts "Capistrano.instance responds to load: #{Capistrano::Configuration.instance.respond_to?(:load)}"
 puts ""
 
 Capistrano::Configuration.instance.load do
