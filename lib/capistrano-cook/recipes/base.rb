@@ -1,12 +1,21 @@
 require "digest"
 
+puts ""
+puts "In base.rb"
+puts "Capistrano responds to instance: #{Capistrano::Configuration.respond_to?(:instance)}"
+puts "Capistrano.instance responds to load: #{Capistrano::Configuration.instance.respond_to?(:load)}"
+puts ""
+
 Capistrano::Configuration.instance.load do
+
+  puts "Inside load block of Cap::Conf.instance"
+
   def template(from, to)
     if File.exists?("deploy/templates/#{from}")
       logger.info "using template form #{File.absolute_path('deploy/template/' + from)}"
       erb = File.read("deploy/templates/#{from}")
     else
-      erb = File.read(File.expand_path("templates/#{from}", File.dirname(__FILE__)))
+      erb = File.read(File.expand_path("templates/#{from}", File.dirname(File.expand_path(__FILE__))))
     end
     put ERB.new(erb).result(binding), to
   end
@@ -18,7 +27,6 @@ Capistrano::Configuration.instance.load do
   def generate_password(len=16)
     Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{user}--")[0,len]
   end
-
 
   namespace :deploy do
     desc "Install everything on server"
