@@ -40,16 +40,16 @@ Capistrano::Configuration.instance.load do
     task :add_user do
       set_default(:usr_password) { Capistrano::CLI.password_prompt "Password for new user:" }
       set :base_user, user
-      set :user, 'root'
+      set :user, fetch(:root_user, 'root')
       begin
-        run "addgroup admin"
+        run "#{sudo} addgroup admin"
       rescue Capistrano::CommandError => e
         logger.info "group admin already exists."
       end
-      run "useradd -s /bin/bash -G admin -mU #{base_user}"
+      run "#{sudo} useradd -s /bin/bash -G admin -mU #{base_user}"
       run "echo '#{usr_password}' >  tmp_pass"
       run "echo '#{usr_password}' >> tmp_pass"
-      run "passwd #{base_user} < tmp_pass"
+      run "#{sudo} passwd #{base_user} < tmp_pass"
       run "rm tmp_pass"
       set :user, base_user
     end
