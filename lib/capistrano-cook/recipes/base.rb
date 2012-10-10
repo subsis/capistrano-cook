@@ -2,9 +2,9 @@ require "digest"
 
 Capistrano::Configuration.instance.load do
   def template(from, to)
-    if File.exists?("deploy/templates/#{from}")
-      logger.info "using template form #{File.absolute_path('deploy/template/' + from)}"
-      erb = File.read("deploy/templates/#{from}")
+    if File.exists?("config/deploy/templates/#{from}")
+      logger.info "using template form #{File.absolute_path('config/deploy/template/' + from)}"
+      erb = File.read("config/deploy/templates/#{from}")
     else
       erb = File.read(File.expand_path("templates/#{from}", File.dirname(__FILE__)))
     end
