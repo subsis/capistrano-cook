@@ -79,6 +79,6 @@ The default stack is configured as follows:
 * Ruby 1.9.3-p125
 * rbenv
 * Unicorn with rolling restarts (as describe in [RailsCast 373](http://railscasts.com/episodes/373-zero-downtime-deployment). Installed as an sysinit service. Defaults to 2 workers processes.
-* Monit monitors Unicorn worker processes, and gracefully restarts workers that use more than 120MB RAM, or more than 25% CPU.
+* Monit monitors Unicorn worker processes, and gracefully restarts workers that use more than 120MB RAM, or an average of 25% CPU over 2 minutes.
 * logrotate with weekly rotation, 10 weeks compressed history.
 * nodejs (from `ppa:chris-lea/node.js`) for asset precompilation.
