@@ -10,7 +10,7 @@ Add to your Gemfile:
 gem 'capistrano-cook', :git => 'https://github.com/subsis/capistrano-cook.git'
 ````
 
-then run:
+Also, add `gem "unicorn", :group => :production`, if you haven't already. Then run:
 
 ````bash
 bundle install
@@ -22,7 +22,7 @@ To use the default configuration, add the following to your `config/deploy.rb` f
 require "capistrano-cook"
 ````
 
-This will include recipes for the default setup (mysql, nginx, ruby 1.9.3-pxxx, rbenv, unicorn, monit, logrotate). If you want to customize your deployment setup, [check out the wiki](https://github.com/Subsis/capistrano-cook/wiki).
+This will include recipes for the default setup (see below for a description). If you want to customize your deployment setup, [check out the wiki](https://github.com/Subsis/capistrano-cook/wiki).
 
 You need to configure Capistrano as you would otherwise. The following is an example of a minimal `config/deploy.rb`-file:
 
@@ -50,7 +50,7 @@ default_run_options[:pty]   = true
 ssh_options[:forward_agent] = true
 ````
 
-Now you're ready to set up the server, and we need to create a deployment user:
+Now you're ready to set up the server, and we need to create a deployment user (you will be prompted for the password of the `root`-user):
 
 ````bash
 cap root:add_user
@@ -69,3 +69,16 @@ cap deploy:cold
 ````
 
 This will create deployment folder structure under `/var/www/myappname`, create the database, install your app as a service, and configure Nginx.
+
+# Default Stack
+
+The default stack is configured as follows:
+
+* MySQL 5.5 (from `ppa:nathan-renniewaldock`)
+* Nginx (from `ppa:nginx/stable`)
+* Ruby 1.9.3-p125
+* rbenv
+* Unicorn with rolling restarts (as describe in [RailsCast 373](http://railscasts.com/episodes/373-zero-downtime-deployment). Installed as an sysinit service. Defaults to 2 workers processes.
+* Monit monitors Unicorn worker processes, and gracefully restarts workers that use more than 120MB RAM, or more than 25% CPU.
+* logrotate with weekly rotation, 10 weeks compressed history.
+* nodejs (from `ppa:chris-lea/node.js`) for asset precompilation.
