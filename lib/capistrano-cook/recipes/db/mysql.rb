@@ -32,9 +32,9 @@ Capistrano::Configuration.instance.load do
     task :install, :roles => :db do
       run "#{sudo} su -c \"echo 'mysql-server mysql-server/root_password select #{db_root_password}' | debconf-set-selections\""
       run "#{sudo} su -c \"echo 'mysql-server mysql-server/root_password_again select #{db_root_password}' | debconf-set-selections\""
-      run "#{sudo} add-apt-repository -y ppa:nathan-renniewaldock/ppa"
-      run "#{sudo} apt-get -y update "
-      run "#{sudo} apt-get -y install mysql-server-5.5 libmysqlclient-dev libmysql-ruby"
+      run "#{sudo} add-apt-repository ppa:nathan-renniewaldock/ppa"
+      run "#{sudo} apt-get -y update"
+      run "#{sudo} apt-get -y install mysql-server-5.5 mysql-client libmysqlclient-dev libmysql-ruby"
       restart
     end
 
