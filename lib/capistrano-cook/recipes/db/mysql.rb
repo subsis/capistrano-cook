@@ -60,12 +60,14 @@ Capistrano::Configuration.instance.load do
     after "deploy:install" do
       install if db_server == :mysql
     end
+
     after "deploy:setup" do
       if db_server == :mysql
         create_database
         setup
       end
     end
+
     after "deploy:finalize_update" do
       symlink if db_server == :mysql
     end
