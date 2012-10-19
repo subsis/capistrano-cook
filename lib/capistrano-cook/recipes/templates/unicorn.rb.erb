@@ -22,7 +22,7 @@ preload_app true
 
 # Reload gems properly
 before_exec do |server|
-  ENV["BUNDLE_GEMFILE"] = "#{current_path}/Gemfile"
+  ENV["BUNDLE_GEMFILE"] = "<%= current_path %>/Gemfile"
 end
 
 before_fork do |server, worker|
