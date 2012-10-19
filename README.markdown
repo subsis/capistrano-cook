@@ -62,10 +62,10 @@ This will create a sudo user with the same name as your app, and prompt for a pa
 cap deploy:install
 ````
 
-You're now ready to set up your app, and deploy it:
+You're now ready to set up your app, and deploy it for the first time:
 
 ````bash
-cap deploy:cold
+cap deploy:setup deploy:cold
 ````
 
 This will create deployment folder structure under `/var/www/myappname`, create the database, install your app as a service, and configure Nginx.
