@@ -14,10 +14,10 @@ Capistrano::Configuration.instance.load do
     task :setup, :roles => :app do
       template "monit.erb", "/tmp/monit"
       run "#{sudo} mv /tmp/monit /etc/monit/conf.d/#{application}"
-      reload
+      restart
     end
 
-    %w[start stop restart reload].each do |command|
+    %w[start stop restart force-reload].each do |command|
       desc "#{command} monit"
       task command, :roles => :web do
         run "#{sudo} service monit #{command}"

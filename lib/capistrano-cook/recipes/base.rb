@@ -19,7 +19,6 @@ Capistrano::Configuration.instance.load do
     Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{user}--")[0,len]
   end
 
-
   namespace :deploy do
     desc "Install everything on server"
     task :install do
@@ -36,7 +35,7 @@ Capistrano::Configuration.instance.load do
   end
 
   namespace :root do
-    desc "create depoly user and add proper privilages"
+    desc "create deploy user and add proper priviledges"
     task :add_user do
       set_default(:usr_password) { Capistrano::CLI.password_prompt "Password for new user:" }
       set :base_user, user

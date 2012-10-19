@@ -1,0 +1,25 @@
+<VirtualHost *:80>
+  ServerName <%= domain %>
+  ServerAlias www.<%= domain %>
+
+  # Point this to your public folder of teambox
+  DocumentRoot <%= current_path %>/public
+
+  RewriteEngine On
+
+  <Proxy balancer://unicornservers>
+    BalancerMember http://127.0.0.1:<%= unicorn_port_or_socket %>
+  </Proxy>
+
+  # Redirect all non-static requests to unicorn
+  RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
+  RewriteRule ^/(.*)$ balancer://unicornservers%{REQUEST_URI} [P,QSA,L]
+
+  ProxyPreserveHost on
+
+  <Proxy *>
+    Order deny,allow
+    Allow from all
+  </Proxy>
+
+</VirtualHost>
