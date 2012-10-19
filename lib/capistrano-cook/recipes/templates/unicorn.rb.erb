@@ -8,8 +8,8 @@ pid "<%= unicorn_pid %>"
 stderr_path "<%= unicorn_log %>"
 stdout_path "<%= unicorn_log %>"
 
-# Listen on the Unix data socket to nginx.
-listen "/tmp/unicorn.<%= application %>.sock"
+# Listen to a port (Apache2) or on the Unix data socket (nginx).
+listen <%= unicorn_port_or_socket %>
 
 worker_processes <%= unicorn_workers %>
 

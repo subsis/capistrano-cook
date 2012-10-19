@@ -1,6 +1,7 @@
 Capistrano::Configuration.instance.load do
   set_default(:nginx_template) { "nginx_unicorn.erb" }
   set_default(:http_server, :nginx)
+  set_default(:unicorn_port_or_socket) { "/tmp/unicorn.#{application}.sock" }
 
   namespace :nginx do
     desc "Install nginx server"
