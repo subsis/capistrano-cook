@@ -6,7 +6,7 @@ Capistrano::Configuration.instance.load do
   namespace :apache2 do
     desc "Install Apache2 server"
     task :install, :roles => :web do
-      run "#{sudo} apt-get -y update "
+      run "#{sudo} apt-get -y update"
       run "#{sudo} apt-get -y install apache2"
       start
     end
@@ -32,7 +32,7 @@ Capistrano::Configuration.instance.load do
     end
 
     after "deploy:install" do
-       install if http_server == :apache2
+      install if http_server == :apache2
     end
 
     after "deploy:setup" do

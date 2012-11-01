@@ -12,13 +12,13 @@ Capistrano::Configuration.instance.load do
       run "cd #{release_path}/vendor/cache; wget 'http://rubygems.org/downloads/libv8-#{libv8_version}-#{system_architecture}.gem'"
     end
 
-    desc "nokogiri dependendce library"
+    desc "nokogiri dependency library"
     task :nokogiri, :role => :app do
       run "#{sudo} apt-get -y update"
       run "#{sudo} apt-get -y install libxml2 libxml2-dev libxslt1-dev"
     end
 
-    desc "patron dependendce library"
+    desc "patron dependency library"
     task :patron, :role => :app do
       run "#{sudo} apt-get -y update"
       run "#{sudo} apt-get -y install libcurl4-openssl-dev"

@@ -43,6 +43,7 @@ Capistrano::Configuration.instance.load do
     after "deploy:install" do
       install if db_server == :postgresql
     end
+
     after "deploy:setup" do
       if db_server == :postgresql
         create_database

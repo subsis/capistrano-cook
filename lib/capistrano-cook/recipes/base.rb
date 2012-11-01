@@ -12,7 +12,7 @@ Capistrano::Configuration.instance.load do
   end
 
   def set_default(name, *args, &block)
-    set(name, *args, &block) unless  exists?(name)
+    set(name, *args, &block) unless exists?(name)
   end
 
   def generate_password(len=16)

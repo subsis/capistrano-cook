@@ -28,7 +28,7 @@ Capistrano::Configuration.instance.load do
     end
 
     after "deploy:install" do
-       install if http_server == :nginx
+      install if http_server == :nginx
     end
 
     after "deploy:setup" do
