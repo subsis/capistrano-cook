@@ -4,7 +4,6 @@ Capistrano::Configuration.instance.load do
   set_default(:db_generate_password, true)
   set_default(:db_name)     { "#{application}_#{rails_env}" }
   set_default(:postgresql_template) { "postgresql.yml.erb" }
-  set_default(:db_server, :postgresql)
   set_default(:db_password) {
     if db_generate_password
       logger.info "Database password will be generated"
@@ -32,7 +31,8 @@ Capistrano::Configuration.instance.load do
     desc "Create database.yml file. Task should be run together with postgres:create_database."
     task :setup, :roles => :app do
       run "mkdir -p #{shared_path}/config"
-      template postgresql_template, "#{shared_path}/config/database.yml"
+      template postgresql_template, "/tmp/postgres_database.yml"
+      run "#{sudo} mv -f /tmp/postgres_database.yml #{shared_path}/config/database.yml"
     end
 
     desc "Symlink the database.yml file into latest release"
