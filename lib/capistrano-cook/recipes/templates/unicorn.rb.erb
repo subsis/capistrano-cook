@@ -9,7 +9,7 @@ stderr_path "<%= unicorn_log %>"
 stdout_path "<%= unicorn_log %>"
 
 # Listen to a port (Apache2) or on the Unix data socket (nginx).
-listen <%= unicorn_port_or_socket %>
+listen "<%= http_server == :apache2 ? app_server_port : app_server_socket %>"
 
 worker_processes <%= unicorn_workers %>
 

@@ -1,7 +1,6 @@
 Capistrano::Configuration.instance.load do
   set_default(:apache2_template) { "apache2.erb" }
-  set_default(:http_server, :apache2)
-  set_default(:unicorn_port_or_socket, "5000")
+  set_default(:app_server_port, "5000")
 
   namespace :apache2 do
     desc "Install Apache2 server"
