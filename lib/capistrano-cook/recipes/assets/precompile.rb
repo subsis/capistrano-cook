@@ -3,7 +3,7 @@ Capistrano::Configuration.instance.load do
     namespace :assets do
       desc "precompile assets"
       task :precompile, :roles => :web, :except => { :no_release => true } do
-          run %Q{cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} assets:precompile}
+        run %Q{cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} assets:precompile}
       end
     end
   end
