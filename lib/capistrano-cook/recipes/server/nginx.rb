@@ -15,7 +15,8 @@ Capistrano::Configuration.instance.load do
     desc "Setup nginx configuration"
     task :setup, :roles => :web do
       template nginx_template, "/tmp/nginx_conf"
-      run "#{sudo} mv /tmp/nginx_conf /etc/nginx/sites-enabled/#{application}"
+      run "#{sudo} mv /tmp/nginx_conf /etc/nginx/sites-available/#{application}"
+      run "#{sudo} ln -s /etc/nginx/sites-available/#{application} /etc/nginx/sites-enabled/#{application}"
       run "#{sudo} rm -f /etc/nginx/sites-enabled/default"
       reload
     end
