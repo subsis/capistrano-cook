@@ -18,7 +18,7 @@ Capistrano::Configuration.instance.load do
     end
 
     %w[start stop restart force-reload].each do |command|
-      desc "#{command} monit"
+      desc "#{command.capitalize} monit"
       task command, :roles => :web do
         run "#{sudo} service monit #{command}"
       end

@@ -3,7 +3,7 @@ require "digest"
 Capistrano::Configuration.instance.load do
   def template(from, to)
     if File.exists?("config/deploy/templates/#{from}")
-      logger.info "using template form #{File.absolute_path('config/deploy/template/' + from)}"
+      logger.info "Using template form #{File.absolute_path('config/deploy/template/' + from)}"
       erb = File.read("config/deploy/templates/#{from}")
     else
       erb = File.read(File.expand_path("templates/#{from}", File.dirname(__FILE__)))
@@ -20,22 +20,22 @@ Capistrano::Configuration.instance.load do
   end
 
   namespace :deploy do
-    desc "Install everything on server"
+    desc "Install common libraries on server"
     task :install do
       run "#{sudo} apt-get -y update"
       run "#{sudo} apt-get -y install python-software-properties curl build-essential git-core libssl-dev"
     end
 
-    desc "fix privilages for shared folders"
-    task :setup_privilages do
+    desc "Fix priviledges for shared folders"
+    task :setup_priviledges do
       run "#{sudo} chown -R #{user} #{shared_path}"
       run "#{sudo} chown -R #{user} #{deploy_to}"
     end
-    after "deploy:setup", "deploy:setup_privilages"
+    after "deploy:setup", "deploy:setup_priviledges"
   end
 
   namespace :root do
-    desc "create deploy user and add proper priviledges"
+    desc "Create deploy user and add proper priviledges"
     task :add_user do
       set_default(:usr_password) { Capistrano::CLI.password_prompt "Password for new user:" }
       set :base_user, user

@@ -18,24 +18,24 @@ Capistrano::Configuration.instance.load do
       end
     end
 
-    desc "lib v8 libraries"
+    desc "v8 libraries"
     task :libv8, :role => :app do
       run "cd #{release_path}/vendor/cache; wget 'http://rubygems.org/downloads/libv8-#{libv8_version}-#{system_architecture}.gem'"
     end
 
-    desc "installs nokogiri's library dependencies"
+    desc "Installs nokogiri's library dependencies"
     task :nokogiri, :role => :app do
       run "#{sudo} apt-get -y update"
       run "#{sudo} apt-get -y install libxml2 libxml2-dev libxslt1-dev"
     end
 
-    desc "installs patron's library dependencies"
+    desc "Installs patron's library dependencies"
     task :patron, :role => :app do
       run "#{sudo} apt-get -y update"
       run "#{sudo} apt-get -y install libcurl4-openssl-dev"
     end
 
-    desc "installs dragonfly's library dependencies"
+    desc "Installs dragonfly's library dependencies"
     task :dragonfly, :role => :app do
       run "#{sudo} apt-get -y update"
       run "#{sudo} apt-get -y install imagemagick"

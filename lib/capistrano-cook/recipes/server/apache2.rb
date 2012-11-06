@@ -24,7 +24,7 @@ Capistrano::Configuration.instance.load do
     end
 
     %w[start stop restart reload].each do |command|
-      desc "#{command} Apache2 server"
+      desc "#{command.capitalize} Apache2 server"
       task command, :roles => :web do
         run "#{sudo} service apache2 #{command}"
       end

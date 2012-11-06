@@ -15,7 +15,7 @@ Capistrano::Configuration.instance.load do
   }
 
   namespace :postgresql do
-    desc "Install the latest reales of PostgreSQL"
+    desc "Install the latest release of PostgreSQL"
     task :install, :roles => :db do
       run "#{sudo} add-apt-repository -y ppa:pitti/postgresql"
       run "#{sudo} apt-get -y update "
@@ -55,7 +55,7 @@ Capistrano::Configuration.instance.load do
     end
 
     %w[start stop restart].each do |command|
-      desc "#{command} PostgreSQL server"
+      desc "#{command.capitalize} PostgreSQL server"
       task command, :roles => :db do
         run "#{sudo} service postgresql #{command}"
       end

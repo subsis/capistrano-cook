@@ -1,7 +1,7 @@
 Capistrano::Configuration.instance.load do
   namespace :deploy do
     namespace :assets do
-      desc "compiles assets on local machine"
+      desc "Compiles assets on local machine"
       task :local_precompile, :roles => :web, :except => { :no_release => true } do
         run_locally "bundle exec rake assets:precompile"
         find_servers_for_task(current_task).each do |server|
