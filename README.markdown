@@ -7,7 +7,7 @@ The goal of `capistrano-cook` is to make single-server Rails hosting solutions a
 Add to your Gemfile:
 
 ````ruby
-gem 'capistrano-cook', :git => 'https://github.com/subsis/capistrano-cook.git'
+gem 'capistrano-cook', :git => 'https://github.com/subsis/capistrano-cook.git', :require => false
 ````
 
 Also, add `gem "unicorn", :group => :production`, if you haven't already. Then run:
