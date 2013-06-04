@@ -1,4 +1,4 @@
-Capistrano::Configuration.instance(true).load do
+Capistrano::Configuration.instance(:must_exist).load do
   set_default :ruby_installer, :rbenv
   set_default(:rvm_type, :user)
 

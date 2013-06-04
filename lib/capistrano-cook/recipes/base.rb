@@ -1,6 +1,6 @@
 require "digest"
 
-Capistrano::Configuration.instance.load do
+Capistrano::Configuration.instance(:must_exist).load do
   def template(from, to)
     if File.exists?("config/deploy/templates/#{from}")
       logger.info "Using template form #{File.absolute_path('config/deploy/template/' + from)}"

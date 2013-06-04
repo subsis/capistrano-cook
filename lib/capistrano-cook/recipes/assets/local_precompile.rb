@@ -1,4 +1,4 @@
-Capistrano::Configuration.instance.load do
+Capistrano::Configuration.instance(:must_exist).load do
   namespace :deploy do
     namespace :assets do
       desc "Compiles assets on local machine"

@@ -1,4 +1,4 @@
-Capistrano::Configuration.instance.load do
+Capistrano::Configuration.instance(:must_exist).load do
   set_default :libv8_version,       "3.3.10.2"
   set_default :system_architecture, "x86-linux"
 

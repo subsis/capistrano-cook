@@ -1,4 +1,4 @@
-Capistrano::Configuration.instance.load do
+Capistrano::Configuration.instance(:must_exist).load do
   set_default(:unicorn_user)          { user }
   set_default(:unicorn_template)      { "unicorn.rb.erb" }
   set_default(:unicorn_init_template) { "unicorn_init.erb" }

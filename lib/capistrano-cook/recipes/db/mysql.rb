@@ -1,4 +1,4 @@
-Capistrano::Configuration.instance.load do
+Capistrano::Configuration.instance(:must_exist).load do
   set_default(:db_host,        "localhost")
   set_default(:db_user)        { application }
   set_default(:db_generate_password, true)

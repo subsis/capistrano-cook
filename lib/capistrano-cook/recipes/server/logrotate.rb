@@ -1,4 +1,4 @@
-Capistrano::Configuration.instance.load do
+Capistrano::Configuration.instance(:must_exist).load do
   set_default(:install_logorate, true)
   namespace :logrotate do
     desc "Setup logorate"

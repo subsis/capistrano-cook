@@ -1,4 +1,4 @@
-Capistrano::Configuration.instance.load do
+Capistrano::Configuration.instance(:must_exist).load do
   set_default(:apache2_template) { "apache2.erb" }
   set_default(:app_server_port, "5000")
 

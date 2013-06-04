@@ -1,4 +1,4 @@
-Capistrano::Configuration.instance.load do
+Capistrano::Configuration.instance(:must_exist).load do
   set_default :rails_server,      :unicorn
   set_default :monit_mem_restart, "120.0 MB"
   set_default :monit_cpu_alert,   "22%"

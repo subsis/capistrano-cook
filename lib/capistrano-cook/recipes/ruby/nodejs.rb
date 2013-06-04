@@ -1,4 +1,4 @@
-Capistrano::Configuration.instance.load do
+Capistrano::Configuration.instance(:must_exist).load do
   set_default(:install_nodejs, true)
   namespace :nodejs do
     desc "Install the latest relase of Node.js"
