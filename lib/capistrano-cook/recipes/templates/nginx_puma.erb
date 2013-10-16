@@ -1,5 +1,5 @@
 upstream unicorn {
-  server unix:/var/run/puma.<%= application %>.sock fail_timeout=0;
+  server unix:/var/run/puma/<%= application %>.sock fail_timeout=0;
 }
 
 server {

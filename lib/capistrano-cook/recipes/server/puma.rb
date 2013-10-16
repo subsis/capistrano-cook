@@ -26,6 +26,11 @@ Capistrano::Configuration.instance(:must_exist).load do
       run "#{sudo} wget 'https://raw.github.com/puma/puma/master/tools/jungle/init.d/run-puma' -O /usr/local/bin/run-puma"
       run "#{sudo} chmod +x /usr/local/bin/run-puma"
       run "#{sudo} touch /etc/puma.conf"
+      run "#{sudo} mkdir /var/run/puma"
+      run "#{sudo} groupadd puma"
+      run "#{sudo} chown -R root:puma /var/run/puma"
+      run "#{sudo} chmod -R 775 /var/run/puma"
+      run "#{sudo} usermod -a -G puma #{user}"
     end
 
     desc "Setup puma initializer and app configuration"
