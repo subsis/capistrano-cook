@@ -37,5 +37,13 @@ BASHRC
       run "gem install bundler --no-ri --no-rdoc"
       run "rbenv rehash"
     end
+
+    desc "Install new ruby version and Bundler gem, but not setup as global"
+    task :install_ruby_local, :roles => :app do
+      run "rbenv install #{ruby_version}"
+      run "rbenv local #{ruby_version}"
+      run "gem install bundler --no-ri --no-rdoc"
+      run "rbenv rehash"
+    end
   end
 end
