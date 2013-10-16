@@ -9,7 +9,7 @@ Capistrano::Configuration.instance(:must_exist).load do
   set_default(:puma_timeout, 30)
   set_default(:rails_server, :puma)
 
-  namespace :unicorn do
+  namespace :puma do
     desc "Update Puma app configuration"
     task :update_config, :roles => :app do
       run "#{sudo} mkdir -p #{shared_path}/config"
