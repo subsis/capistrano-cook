@@ -2,5 +2,5 @@ threads <%= puma_min_threads %>,<%= puma_max_threads %>
 workers <%= puma_workers %>
 bind 'unix:///var/run/puma/<%= application %>.sock?umask=0777'
 preload_app!
-
+environment '<%= rails_env %>'
 # activate_control_app 'unix:///var/run/pumactl.sock', { auth_token: '12345' }
