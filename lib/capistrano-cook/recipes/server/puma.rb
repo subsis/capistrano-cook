@@ -28,7 +28,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       run "#{sudo} touch /etc/puma.conf"
     end
 
-    desc "Setup Unicorn initializer and app configuration"
+    desc "Setup puma initializer and app configuration"
     task :setup, :roles => :app do
       update_config
 
