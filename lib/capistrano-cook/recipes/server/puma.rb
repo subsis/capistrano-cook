@@ -46,7 +46,18 @@ Capistrano::Configuration.instance(:must_exist).load do
       task command, :roles => :app do
         run "service puma #{command}"
       end
-      after "deploy:#{command}", "puma:#{command}" if rails_server == :puma
+    end
+
+    after "deploy:start" do
+      start if rails_server == :puma
+    end
+
+    after "deploy:stop" do
+      stop if rails_server == :puma
+    end
+
+    after "deploy:restart" do
+      restart if rails_server == :puma
     end
 
     after "deploy:setup" do

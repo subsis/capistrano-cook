@@ -32,7 +32,18 @@ Capistrano::Configuration.instance(:must_exist).load do
       task command, :roles => :app do
         run "service unicorn_#{application} #{command}"
       end
-      after "deploy:#{command}", "unicorn:#{command}" if rails_server == :unicorn
+    end
+
+    after "deploy:start" do
+      start if rails_server == :unicorn
+    end
+
+    after "deploy:stop" do
+      stop if rails_server == :unicorn
+    end
+
+    after "deploy:restart" do
+      restart if rails_server == :unicorn
     end
 
     after "deploy:setup" do
