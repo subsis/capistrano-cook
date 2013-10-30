@@ -1,3 +1,5 @@
+pidfile    'tmp/pids/puma_pid'
+state_path 'tmp/pids/puma_state'
 threads <%= puma_min_threads %>,<%= puma_max_threads %>
 workers <%= puma_workers %>
 bind 'unix:///var/run/puma/<%= application %>.sock?umask=0777'
