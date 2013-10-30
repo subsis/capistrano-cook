@@ -44,7 +44,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     %w[start stop restart].each do |command|
       desc "#{command.capitalize} puma"
       task command, :roles => :app do
-        run "service puma #{command}"
+        run "#{sudo} service puma #{command}"
       end
     end
 
