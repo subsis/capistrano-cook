@@ -1,0 +1,12 @@
+chdir: <%= current_path %>
+environment: <%= rails_env %>
+timeout: <%= thin_timeout %>
+log: <%= thin_log %>
+pid: <%= thin_pid %>
+socket: <%= thin_sock %>
+max_conns: <%= thin_max_conn %>
+max_persistent_conns: <%= thin_max_persistentconn %>
+require: []
+wait: <%= thin_wait %>
+servers: <%= thin_servers %>
+daemonize: true
