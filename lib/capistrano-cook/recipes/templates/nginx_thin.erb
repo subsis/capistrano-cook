@@ -1,5 +1,5 @@
 upstream thin {<% thin_servers.times do |i| %>
-  server <%= thin_sock.split(".").insert(-2, "#{i}").join(".") %>  fail_timeout=0;<% end %>
+  server unix:<%= thin_sock.split(".").insert(-2, "#{i}").join(".") %>  fail_timeout=0;<% end %>
 }
 
 server {
