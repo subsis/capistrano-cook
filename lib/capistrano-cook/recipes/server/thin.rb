@@ -16,7 +16,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     desc "Update thin app configuration"
     task :update_config, :roles => :app do
       template thin_template, "/tmp/thin.yml"
-      run "#{sudo} mv /tmp/thin.yml #{puma_config}"
+      run "#{sudo} mv /tmp/thin.yml #{thin_config}"
     end
 
     desc "Install thin services"
@@ -25,7 +25,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       run "rbenv sudo thin install"
     end
 
-    desc "Setup puma initializer and app configuration"
+    desc "Setup thin initializer and app configuration"
     task :setup, :roles => :app do
       update_config
     end
