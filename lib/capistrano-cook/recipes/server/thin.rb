@@ -52,9 +52,5 @@ Capistrano::Configuration.instance(:must_exist).load do
     after "deploy:setup" do
       setup if rails_server == :thin
     end
-
-    after "deploy:update_code" do
-      update_config if rails_server == :thin
-    end
   end
 end
