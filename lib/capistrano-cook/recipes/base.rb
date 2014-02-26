@@ -1,5 +1,5 @@
 require 'capistrano'
-require "digest"
+require 'digest'
 
 Capistrano::Configuration.instance(:must_exist).load do
   def template(from, to)
@@ -20,38 +20,62 @@ Capistrano::Configuration.instance(:must_exist).load do
     Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{user}--")[0,len]
   end
 
+  def run_interactively(command, server=nil)
+    server ||= find_servers_for_task(current_task).first
+    exec %Q(ssh #{user}@#{server.host} -t 'cd #{current_path} && #{command}')
+  end
+
   namespace :deploy do
-    desc "Install common libraries on server"
+    desc 'Install common libraries on server'
     task :install do
       run "#{sudo} apt-get -y update"
       run "#{sudo} apt-get -y install python-software-properties curl build-essential git-core libssl-dev"
     end
 
-    desc "Fix priviledges for shared folders"
+    desc 'Fix priviledges for shared folders'
     task :setup_priviledges do
       run "#{sudo} chown -R #{user} #{shared_path}"
       run "#{sudo} chown -R #{user} #{deploy_to}"
     end
-    after "deploy:setup", "deploy:setup_priviledges"
+    after 'deploy:setup', 'deploy:setup_priviledges'
   end
 
   namespace :root do
-    desc "Create deploy user and add proper priviledges"
+    desc 'Create deploy user and add proper priviledges'
     task :add_user do
-      set_default(:usr_password) { Capistrano::CLI.password_prompt "Password for new user:" }
+      set_default(:usr_password) { Capistrano::CLI.password_prompt 'Password for new user:' }
       set :base_user, user
       set :user, fetch(:root_user, 'root')
       begin
         run "#{sudo} addgroup admin"
       rescue Capistrano::CommandError => e
-        logger.info "group admin already exists."
+        logger.info 'group admin already exists.'
       end
       run "#{sudo} useradd -s /bin/bash -G admin -mU #{base_user}"
       run "echo '#{usr_password}' >  tmp_pass"
       run "echo '#{usr_password}' >> tmp_pass"
       run "#{sudo} passwd #{base_user} < tmp_pass"
-      run "rm tmp_pass"
+      run 'rm tmp_pass'
       set :user, base_user
+    end
+  end
+
+  namespace :remote do
+    namespace :rails do
+      desc 'Connect to remote rails console'
+      task :console, :roles => :app do
+        run_interactively "bundle exec rails console #{rails_env}"
+      end
+
+      desc 'Connect to remote rails console'
+      task :dbconsole, :roles => :app do
+        run_interactively "bundle exec rails dbconsole #{rails_env}"
+      end
+
+      desc 'tail log'
+      task :log, :roles => :app do
+        run_interactively "tail -n 100 -f ./log/#{rails_env}.log"
+      end
     end
   end
 end
