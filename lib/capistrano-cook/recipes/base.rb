@@ -77,5 +77,16 @@ Capistrano::Configuration.instance(:must_exist).load do
         run_interactively "tail -n 100 -f ./log/#{rails_env}.log"
       end
     end
+    namespace :puma do
+      desc 'tail log'
+      task :log, :roles => :app do
+        run_interactively 'tail -n 100 -f ./log/puma.log'
+      end
+    end
+
+    desc 'htop'
+    task :htop, :roles => :app do
+      run_interactively 'htop'
+    end
   end
 end
