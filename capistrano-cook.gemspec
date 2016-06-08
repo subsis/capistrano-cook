@@ -22,6 +22,6 @@ Gem::Specification.new do |s|
     "LICENSE"
   ]
 
-  s.add_dependency "capistrano", ">= 2.5.9"
+  s.add_dependency "capistrano", "~> 2.5.9"
   s.add_dependency "capistrano-ext", ">= 1.2.1"
 end
