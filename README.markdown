@@ -74,7 +74,7 @@ This will create deployment folder structure under `/var/www/myappname`, create 
 
 The default stack is configured as follows:
 
-* MySQL 5.5 (from `ppa:nathan-renniewaldock`)
+* MySQL 5.7
 * Nginx (from `ppa:nginx/stable`)
 * Ruby 1.9.3-p125
 * rbenv
