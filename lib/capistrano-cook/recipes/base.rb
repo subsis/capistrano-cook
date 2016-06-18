@@ -54,7 +54,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       end
       run "#{sudo} useradd -s /bin/bash -G admin -mU #{base_user}"
       # Set secret in .bashrc:
-      run "#{sudo} echo 'export SECRET_KEY_BASE=#{SecureRandom.hex(64)}' >> ~/.bashrc"
+      run "#{sudo} echo 'export SECRET_KEY_BASE=#{SecureRandom.hex(64)}' >> /home/#{base_user}/.bashrc"
       run "echo '#{usr_password}' >  tmp_pass"
       run "echo '#{usr_password}' >> tmp_pass"
       run "#{sudo} passwd #{base_user} < tmp_pass"
