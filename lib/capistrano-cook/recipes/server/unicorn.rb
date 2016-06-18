@@ -30,7 +30,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     %w[start stop restart].each do |command|
       desc "#{command.capitalize} unicorn"
       task command, :roles => :app do
-        run "service unicorn_#{application} #{command}"
+        run "#{sudo} service unicorn_#{application} #{command}"
       end
     end
 
