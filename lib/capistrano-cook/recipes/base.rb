@@ -1,5 +1,6 @@
 require 'capistrano'
 require 'digest'
+require 'securerandom'
 
 Capistrano::Configuration.instance(:must_exist).load do
   def template(from, to)
@@ -52,6 +53,8 @@ Capistrano::Configuration.instance(:must_exist).load do
         logger.info 'group admin already exists.'
       end
       run "#{sudo} useradd -s /bin/bash -G admin -mU #{base_user}"
+      # Set secret in .bashrc:
+      run "#{sudo} echo 'export SECRET_KEY_BASE=#{SecureRandom.hex(64)}' >> ~/.bashrc"
       run "echo '#{usr_password}' >  tmp_pass"
       run "echo '#{usr_password}' >> tmp_pass"
       run "#{sudo} passwd #{base_user} < tmp_pass"
@@ -77,6 +80,7 @@ Capistrano::Configuration.instance(:must_exist).load do
         run_interactively "tail -n 100 -f ./log/#{rails_env}.log"
       end
     end
+
     namespace :puma do
       desc 'tail log'
       task :log, :roles => :app do
