@@ -49,7 +49,7 @@ Capistrano::Configuration.instance(:must_exist).load do
 
     desc 'Symlink the secrets.yml file into latest release'
     task :symlink_secrets_yml do
-        run "ln -nfs #{shared_path}/config/secrets.yml #{release_path}/config/secrrets.yml"
+        run "ln -nfs #{shared_path}/config/secrets.yml #{release_path}/config/secrets.yml"
     end
     after 'deploy:finalize_update', 'deploy:symlink_secrets_yml'
   end
