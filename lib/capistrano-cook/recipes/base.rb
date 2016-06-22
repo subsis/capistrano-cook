@@ -1,6 +1,5 @@
 require 'capistrano'
 require 'digest'
-require 'securerandom'
 
 Capistrano::Configuration.instance(:must_exist).load do
   def template(from, to)
@@ -39,6 +38,20 @@ Capistrano::Configuration.instance(:must_exist).load do
       run "#{sudo} chown -R #{user} #{deploy_to}"
     end
     after 'deploy:setup', 'deploy:setup_priviledges'
+
+    desc 'Generate secrets.yml on server'
+    task :generate_secrets_yml do
+      run "#{sudo} mkdir -p #{shared_path}/config"
+      template "secrets.yml.erb", "/tmp/secrets.yml"
+      run "#{sudo} mv -f /tmp/secrets.yml #{shared_path}/config/secrets.yml"
+    end
+    after 'deploy:setup', 'deploy:generate_secrets_yml'
+
+    desc 'Symlink the secrets.yml file into latest release'
+    task :symlink_secrets_yml do
+        run "ln -nfs #{shared_path}/config/secrets.yml #{release_path}/config/secrrets.yml"
+    end
+    after 'deploy:finalize_update', 'deploy:symlink_secrets_yml'
   end
 
   namespace :root do
@@ -53,8 +66,6 @@ Capistrano::Configuration.instance(:must_exist).load do
         logger.info 'group admin already exists.'
       end
       run "#{sudo} useradd -s /bin/bash -G admin -mU #{base_user}"
-      # Set secret in .bashrc:
-      run "#{sudo} echo 'export SECRET_KEY_BASE=#{SecureRandom.hex(64)}' >> /home/#{base_user}/.bashrc"
       run "echo '#{usr_password}' >  tmp_pass"
       run "echo '#{usr_password}' >> tmp_pass"
       run "#{sudo} passwd #{base_user} < tmp_pass"
