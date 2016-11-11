@@ -27,7 +27,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       run "#{sudo} update-rc.d -f unicorn_#{application} defaults"
     end
 
-    %w[start stop restart].each do |command|
+    %w[start stop reload restart].each do |command|
       desc "#{command.capitalize} unicorn"
       task command, :roles => :app do
         run "#{sudo} service unicorn_#{application} #{command}"
@@ -43,7 +43,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     end
 
     after "deploy:restart" do
-      restart if rails_server == :unicorn
+      reload if rails_server == :unicorn
     end
 
     after "deploy:setup" do
