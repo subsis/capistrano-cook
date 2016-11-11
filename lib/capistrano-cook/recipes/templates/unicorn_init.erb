@@ -9,6 +9,7 @@
 # Description:       Start, stop, restart unicorn server for a specific application.
 ### END INIT INFO
 set -e
+set -u
 
 # Feel free to change any of the following variables for your app:
 TIMEOUT=${TIMEOUT-60}
@@ -16,16 +17,9 @@ APP_ROOT=<%= current_path %>
 PID=<%= unicorn_pid %>
 CMD="cd <%= current_path %>; bundle exec unicorn -D -c <%= unicorn_config %> -E <%= rails_env %>"
 AS_USER=<%= unicorn_user %>
-set -u
-
-OLD_PIN="$PID.oldbin"
 
 sig () {
   test -s "$PID" && kill -$1 `cat $PID`
-}
-
-oldsig () {
-  test -s $OLD_PIN && kill -$1 `cat $OLD_PIN`
 }
 
 run () {
