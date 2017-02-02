@@ -70,7 +70,6 @@ Capistrano::Configuration.instance(:must_exist).load do
       symlink if db_server == :mysql
     end
 
-
     %w[start stop restart].each do |command|
       desc "#{command.capitalize} MySQL server"
       task command, :roles => :db do
