@@ -15,7 +15,7 @@ server {
 
 server {
   server_name <%= domain %>;
-  listen 443 deferred ssl; # for Linux
+  listen 443 deferred ssl http2; # for Linux
 
   ssl on;
   ssl_certificate     /etc/letsencrypt/live/<%= domain %>/fullchain.pem;
