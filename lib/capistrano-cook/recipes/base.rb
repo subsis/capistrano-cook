@@ -29,7 +29,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     desc 'Install common libraries on server'
     task :install do
       run "#{sudo} apt-get -y update"
-      run "#{sudo} apt-get -y install python-software-properties curl build-essential git-core libssl-dev"
+      run "#{sudo} apt-get -y install software-properties-common curl build-essential git-core libssl-dev"
     end
 
     desc 'Fix priviledges for shared folders'

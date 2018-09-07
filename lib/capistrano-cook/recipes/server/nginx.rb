@@ -7,7 +7,7 @@ Capistrano::Configuration.instance(:must_exist).load do
   namespace :nginx do
     desc "Install nginx server"
     task :install, :roles => :web do
-      run "#{sudo} apt-get -y install software-properties-common python-software-properties" # Enables add-apt-repository on Ubuntu 16.4 LTS
+      run "#{sudo} apt-get -y install software-properties-common" # Enables add-apt-repository on Ubuntu 16.4 LTS
       run "#{sudo} add-apt-repository -y ppa:nginx/stable"
       run "#{sudo} apt-get -y update "
       run "#{sudo} apt-get -y install nginx"
@@ -18,7 +18,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     task :setup, :roles => :web do
       template nginx_template, "/tmp/nginx_conf"
       run "#{sudo} mv /tmp/nginx_conf /etc/nginx/sites-available/#{application}"
-      run "#{sudo} ln -s /etc/nginx/sites-available/#{application} /etc/nginx/sites-enabled/#{application}"
+      run "#{sudo} ln -fs /etc/nginx/sites-available/#{application} /etc/nginx/sites-enabled/#{application}"
       run "#{sudo} rm -f /etc/nginx/sites-enabled/default"
       reload
     end

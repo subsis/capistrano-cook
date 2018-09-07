@@ -32,7 +32,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     task :install, :roles => :db do
       run "#{sudo} su -c \"echo 'mysql-server mysql-server/root_password select #{db_root_password}' | debconf-set-selections\""
       run "#{sudo} su -c \"echo 'mysql-server mysql-server/root_password_again select #{db_root_password}' | debconf-set-selections\""
-      run "#{sudo} apt-get -y install mysql-server-5.7 mysql-client libmysqlclient-dev ruby-mysql"
+      run "#{sudo} apt-get -y install mysql-server mysql-client libmysqlclient-dev"
       restart
     end
 
