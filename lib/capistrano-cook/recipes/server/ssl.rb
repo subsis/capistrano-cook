@@ -9,7 +9,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     desc "Setup Let's Encrypt certificate"
     task :setup, :roles => :web do
       template "letsencrypt_cron.erb", "/tmp/letsencrypt_cron"
-      run "#{sudo} letsencrypt certonly -n --agree-tos --email #{ssl_email} --webroot -w #{current_path}/public -d #{domain}"
+      run "#{sudo} letsencrypt certonly -n --agree-tos --email #{ssl_email} --webroot -w #{current_path}/public -d #{domain} -d #{domain_alias}"
       run "#{sudo} crontab /tmp/letsencrypt_cron"
     end
 

@@ -9,8 +9,16 @@ server {
 }
 
 server {
-  listen 80;
-  server_name <%= domain %>;
+  server_name <%= domain_alias %> <%= domain %>;
+  return 301 https://<%= domain %>$request_uri;
+}
+
+server {
+  server_name <%= domain_alias %>;
+  listen 443 ssl;
+  ssl on;
+  ssl_certificate     /etc/letsencrypt/live/<%= domain %>/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/<%= domain %>/privkey.pem;
   return 301 https://<%= domain %>$request_uri;
 }
 
